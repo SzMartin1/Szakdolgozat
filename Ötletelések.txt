@@ -1,0 +1,14 @@
+2. fejezet
+Az oldalnézetes játékok, valamint a pályageneráló algoritmusok jellemzői 
+2.1. A fejezet célja ( in a nutshell, hogy miről is lesz szó a a fejezetben.) 
+2.2. Az oldalnézetes játékok
+2.2.1. Fejlődésük (https://www.redbull.com/in-en/evolution-of-platformers)
+2.2.2. Általános jellemzőik (https://www.powerofplatform.com/what-is-a-platformer-game-features-and-examples/)
+2.2.3. A pályageneráló algoritmusok kapcsolódása a platformer játékokhoz (Itt akár különbőző játékokat hozhatunk alapul, pl. Minecraft)
+2.3. Pályageneráló algoritmusok
+2.3.1. Különbőző generálási módszerek (legalább 3, képekkel)
+2.3.2. Előnyök és hátrányok
+
+3. fejezet
+2D platformer játék fejlesztése a UnityEngine segítségével
+3.1. A fejezet célja
