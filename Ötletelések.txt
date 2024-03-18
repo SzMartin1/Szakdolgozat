@@ -4,7 +4,7 @@ Az oldalnézetes játékok, valamint a pályageneráló algoritmusok jellemzői
 2.2. Az oldalnézetes játékok
 2.2.1. Fejlődésük (https://www.redbull.com/in-en/evolution-of-platformers)
 2.2.2. Általános jellemzőik (https://www.powerofplatform.com/what-is-a-platformer-game-features-and-examples/)
-2.2.3. A pályageneráló algoritmusok kapcsolódása a platformer játékokhoz (Itt akár különbőző játékokat hozhatunk alapul, pl. Minecraft)
+2.2.3. A pályageneráló algoritmusok kapcsolódása a platformer játékokhoz (Itt akár különbőző játékokat hozhatunk alapul, pl. Minecraft) (https://www.baeldung.com/cs/gameplay-maps-procedural-generation)
 2.3. Pályageneráló algoritmusok
 2.3.1. Különbőző generálási módszerek (legalább 3, képekkel)
 2.3.2. Előnyök és hátrányok
