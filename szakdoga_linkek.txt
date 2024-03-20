@@ -8,3 +8,6 @@ https://en.wikipedia.org/wiki/Perlin_noise
 https://gist.github.com/Flafla2/f0260a861be0ebdeef76
 https://github.com/formalatist/Perlin
 https://github.com/samhooke/PerlinNoise
+https://www.techtarget.com/searchenterprisedesktop/definition/cellular-automaton
+https://en.wikipedia.org/wiki/Cellular_automaton
+https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
