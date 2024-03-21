@@ -11,3 +11,4 @@ https://github.com/samhooke/PerlinNoise
 https://www.techtarget.com/searchenterprisedesktop/definition/cellular-automaton
 https://en.wikipedia.org/wiki/Cellular_automaton
 https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+https://www.noveltech.dev/procgen-random-walk
