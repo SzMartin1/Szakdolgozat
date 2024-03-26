@@ -12,8 +12,8 @@ Az oldalnézetes játékok, valamint a pályageneráló algoritmusok jellemzői
 
 3. fejezet
 2D platformer játék fejlesztése a Unity játékmotor segítségével
-3.1.Játékmotorok
-3.1.1. Unreal Engine
+3.1.Játékmotorok (https://en.wikipedia.org/wiki/Game_engine) (https://usv.edu/blog/what-is-a-game-engine/)
+3.1.1. Unreal Engine (https://en.wikipedia.org/wiki/Unreal_Engine) (https://www.unrealengine.com/en-US/features)
 3.1.2. GoDot
 3.1.3 Unity
 3.2.
