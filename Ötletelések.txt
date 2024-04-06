@@ -24,5 +24,7 @@ Az oldalnézetes játékok, valamint a pályageneráló algoritmusok jellemzői
 	- A procedurális mapgenerálás feature bemutatása ( választható lesz a főmenüben, ahol meg lesznek adva nehézségi szintek, minél nehezebb, annál több gyémánt a mapon)
 	- Akadályok elhelyezése a mapon, hogy kihívást jelentő legyen a pálya
 	- Ábra készítése, hogy melyik gomb mit csinál
-3.3. Az irányítható főhős és a kamera (https://www.youtube.com/watch?v=-AuQJRqttBA&list=PLjAb99vXJuCRD04EUp8p2az1ILZbq_ZfY&index=1)
-3.3.1. 
+3.3. A Unity szerkesztője
+3.3.1. A Game Object, valamint a szülő-gyerek kapcsolat
+3.4. Az irányítható főhős és a kamera (https://www.youtube.com/watch?v=-AuQJRqttBA&list=PLjAb99vXJuCRD04EUp8p2az1ILZbq_ZfY&index=1)
+3.4.1. 
