@@ -26,5 +26,24 @@ Az oldalnézetes játékok, valamint a pályageneráló algoritmusok jellemzői
 	- Ábra készítése, hogy melyik gomb mit csinál
 3.3. A Unity szerkesztője
 3.3.1. A Game Object, valamint a szülő-gyerek kapcsolat
-3.4. Az irányítható főhős és a kamera (https://www.youtube.com/watch?v=-AuQJRqttBA&list=PLjAb99vXJuCRD04EUp8p2az1ILZbq_ZfY&index=1)
-3.4.1. 
+3.4. Az irányítható főhős és a kamera
+3.4.1. A PlayerMovement osztály
+3.4.2. A BetterJump osztály
+3.4.3. A MainCamera és a hozzá tartozó szkript
+3.5. Az irányítható karakter meganimálása
+3.6. A szintek elkészítése
+3.6.1. A Grid objektum, valamint a TilePalette használata
+3.6.2. A RuleTile használata (https://learn.unity.com/tutorial/using-rule-tiles#)
+3.7. Az ellenség és a felvehető objektum elkészítése valamint a karakter életvesztésének és halálának az implementálása
+3.7.1. Az EnemyAI osztály
+3.7.2. A LifeCount osztály
+3.7.3. Az InteractionSystem és az Item szkript
+3.8. A LevelManager és a SoundManager osztály
+3.9. A felhasználói felület elkészítése
+3.9.1. A főmenü
+3.9.2. Az szintválasztó menü
+3.9.3. Az opciók menü
+3.9.4. A szünet-, valamint a játék végét jelző menü
+
+4. fejezet
+Procedurális mapgeneráló algoritmus tervezése és fejlesztése
