@@ -1,0 +1,49 @@
+Random Walk algoritmusról, amiket írni lehet
+
+1. Az algoritmus természetének magyarázata
+Sztochasztikus tulajdonságok: A RandomWalk eleve sztochasztikus, azaz véletlenszerű változásokat tartalmaz. 
+Az általa létrehozott pályák kiszámíthatatlanságának és nem determinisztikus jellegének magyarázata segíthet kiemelni egy ilyen algoritmus játékfejlesztésben való használatának hasznosságát és kihívásait.
+Az algoritmus viselkedése: 
+Részletezze, hogyan működik a RandomWalk egy rácson vagy térképen, megemlítve a valószínűségi mechanikát - minden lépés a lehetséges irányok (felfelé, lefelé, balra, jobbra) alapján dönti el a következő lépését, gyakran azonos valószínűséggel.
+2. Technikai megvalósítás
+Lépésről lépésre történő végrehajtás: Részletezni kellene a RandomWalk játékban való megvalósításához használt kódot és logikát.
+Teljesítménybeli megfontolások: Elemezze a RandomWalk használatának számítási bonyolultságát és teljesítménybeli következményeit.
+3. Matematikai elemzések és számítások
+Útvonaljellemzők: Az olyan tulajdonságok kiszámítása és megvitatása, mint az útvonal várható hossza, a kezdőponttól várható távolság és a lefedettségi terület.
+Statisztikai eloszlás: Különböző körülmények között (változó magértékek, rácsméretek stb.) létrehozott pályák statisztikai elemzése, és megvitathatja az útvonalhosszok vagy -formák eloszlását.
+A térkép éleinek kezelése: írni kellene arról, hogyan kezeli az algoritmus a térkép éleit és sarkait.
+5.Vizuális és grafikus ábrázolás
+Grafikonok és képek: A RandomWalk által generált térképek vizuális ábrázolása a szöveges elemzés vizuális alátámasztására. A különböző paraméterekkel generált térképek grafikus összehasonlítása szintén tanulságos lehet.
+6. Javítások: Olyan  javítások vagy variációk az algoritmushoz, amelyek még alkalmassabbá tehetik azt a játékfejlesztésre. Például hibrid megközelítések, amelyek a RandomWalkot más algoritmusokkal kombinálják az elrendezés sűrűségének vagy összekapcsolhatóságának szabályozására.
+
+
+A reqFloorAmount vizsgálata 0-tól 50%-ig, megvizsgálni a futási időt (Egy kisebb méretű pályára és egy nagyobb pályára is)
+
+Szakdoga teendők:
+2. fejezetből kivenni a procgen algoritmusokat, és egy külön, hosszú fejezetben tárgyalni azokat.
+A játékmotorok részt a 2. fejezetbe rakni
+A játék implementálása legyen a 4. fejezet
+5. fejezet legyen a kész játék bemutatása (flowchartok), játékmechanikák elmagyarázása
+Osztálydiagramok készítése az osztályokhoz
+
+Implementálni a Perlin-zaj és a Celluláris automata algoritmusokat
+Miért gondolom azt, hogy az én játékomhoz nem ezek a megfelelő algoritmusok
+
+Az algoritmusok alapötletének a leírása a 3. fejezetnél (0-> üres, 1-> teli, int tömbös map generálása)
+Tervezéshez leírni, hogy olyan mapot kellene generálni, amelybe nincsenek elkülönült részek -> ezért a random walk a nyerő
+Mivel garantálom, hogy a pálya 100%-ig átvihető -> (grappling hook)
+
+Random walknál -> algoritmus sztochasztikusságának elmagyarázása (miért az)
+Algoritmus elmagyarázása
+Az egyeneletes eloszlás helyett a binomiális eloszlás vizsgálata
+Rögzített cellaszázalék mellet nxn-es mapok készítése, majd a lépésszámok megvizsgálása
+
+
+
+
+
+
+
+
+
+
