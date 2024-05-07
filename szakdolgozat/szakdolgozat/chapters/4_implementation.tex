@@ -1,4 +1,4 @@
-\Chapter{4	2D platformer játék tervezése és fejlesztése a Unity játékmotor segítségével}
+\Chapter{2D platformer játék tervezése és fejlesztése a Unity játékmotor segítségével}
 
 \Section{A játék leírása}
 
@@ -15,7 +15,7 @@ A játék több különböző szintből áll, amelyek mindegyike új kihívások
 
 \Section{A Unity szerkesztője}
 
-Amint megnyitjuk a Unity-t, a Unity Hub ablak fogad minket. Itt tudunk projektet létrehozni, frissítéseket letölteni, valamint a Unity-t mint game engine-t jobban megismerni a Learn fül alatt. Miután létrehoztuk a projektünket, a Unity szerkesztője fogad majd minket, amelyet \aref{fig:unityszerkeszto}. ábrán láthatunk.
+Amint megnyitjuk a Unity-t, a Unity Hub ablak fogad minket \cite{unityhub}. Itt tudunk projektet létrehozni, frissítéseket letölteni, valamint a Unity-t mint game engine-t jobban megismerni a Learn fül alatt. Miután létrehoztuk a projektünket, a Unity szerkesztője fogad majd minket, amelyet \aref{fig:unityszerkeszto}. ábrán láthatunk.
 
 \begin{figure}[ht]
 \centering
@@ -24,59 +24,61 @@ Amint megnyitjuk a Unity-t, a Unity Hub ablak fogad minket. Itt tudunk projektet
 \label{fig:unityszerkeszto}
 \end{figure}
 
-A Hierarchy ablak azt a célt szolgálja, hogy felsorolja azokat a GameObject-eket, amelyek az aktuális Scene-en megtalálhatóak. A Project ablaknál találhatóak az Asset-ek, amelyeket az Asset Store-ból installálhatunk, valamint megtalálhatóak még az általunk kreált C\# szrkiptek, és a beimportált csomagok. Az Asset-ek a 2D-s vagy 3D-s modelleket, textúrákat, anyagjellemzőket tartalmazó fájlokat, háttereket, hangfájlokat jelentik, tulajdonképpen ezekből kreáljuk meg a játékunkat. A Console ablakon keresztül kommunikál a Unity a fejlesztővel, itt jelennek meg a Debug.Log() üzenetek, vagy a fordítási hibák. Az Animator és az Animation ablakok a GameObject-ek animálására szolgálnak. Megtalálható még az Inspector ablak, amely azt a célt szolgálja, hogy a kijelölt GameObject-hez kapcsolódó minden adat megtekinthető, változtatható legyen. Az ábrán látható még a Scene ablak, ahol a játékunk objektumait, hátterét és a pályát szerkeszthetjük. A Scene fül mellett található a Game ablak, ami kizárólag azt jeleníti meg, amelyet a Scene ablakban található kamera objektum lát.
+A Hierarchy ablak azt a célt szolgálja, hogy felsorolja azokat a \texttt{GameObject}-eket, amelyek az aktuális Scene-en megtalálhatóak. A Project ablaknál találhatóak az Asset-ek, amelyeket az Asset Store-ból installálhatunk, valamint megtalálhatóak még az általunk kreált C\# szrkiptek, és a beimportált csomagok. Az Asset-ek a 2D-s vagy 3D-s modelleket, textúrákat, anyagjellemzőket tartalmazó fájlokat, háttereket, hangfájlokat jelentik, tulajdonképpen ezekből kreáljuk meg a játékunkat. A Console ablakon keresztül kommunikál a Unity a fejlesztővel, itt jelennek meg a \texttt{Debug.Log()} üzenetek, vagy a fordítási hibák. Az Animator és az Animation ablakok a \texttt{GameObject}-ek animálására szolgálnak. Megtalálható még az Inspector ablak, amely azt a célt szolgálja, hogy a kijelölt \texttt{GameObject}-hez kapcsolódó minden adat megtekinthető, változtatható legyen. Az ábrán látható még a Scene ablak, ahol a játékunk objektumait, hátterét és a pályát szerkeszthetjük. A Scene fül mellett található a Game ablak, ami kizárólag azt jeleníti meg, amelyet a Scene ablakban található kamera objektum lát.
 
 \SubSection{4.2.1	A GameObject, valamint a szülő-gyerek kapcsolat}
 
-A GameObject a Unity egyik legalapvetőbb objektuma. Képviselhet karaktereket, kellékeket, díszletet, kamerákat, útpontokat és még sok mást. Lényegében egy GameObject minden olyan objektum, amely elhelyezhető a Scene képernyőn. Fontos megjegyezni, hogy maga a GameObject nem sok mindent csinál; a hozzá csatolt komponensek adják meg a viselkedését, megjelenését és a célját. Például egy "Renderer" komponens hozzáadása láthatóvá teszi a GameObjectet, míg egy "Collider" komponens hozzáadása lehetővé teszi, hogy hasson rá a Unity fizikai motorja.\cite{unitygameobject}
+A \texttt{GameObject} a Unity egyik legalapvetőbb objektuma. Képviselhet karaktereket, kellékeket, díszletet, kamerákat, útpontokat és még sok mást. Lényegében egy \texttt{GameObject} minden olyan objektum, amely elhelyezhető a \texttt{Scene} képernyőn. Fontos megjegyezni, hogy maga a \texttt{GameObject} nem sok mindent csinál; a hozzá csatolt komponensek adják meg a viselkedését, megjelenését és a célját. Például egy "Renderer" komponens hozzáadása láthatóvá teszi a \texttt{GameObject}-et, míg egy "Collider" komponens hozzáadása lehetővé teszi, hogy hasson rá a Unity fizikai motorja.\cite{unitygameobject}
 
-A Unityben a GameObject-ek rendszerezése a scene-en belül hatékonyan egy szülő-gyermek hierarchián keresztül történik. Ez a hierarchikus, fára emlékeztető struktúra lehetővé teszi a GameObject-ek összekapcsolását. A szülő GameObject olyan tárolóként működik, amely hatással van a gyermekeire: a szülőre alkalmazott bármilyen transzformáció, például a mozgatás, forgatás vagy méretezés a gyermek GameObject-ekben is tükröződik. Minden gyermek GameObject a szülőjéhez kapcsolódik, és örökli annak transzformációs tulajdonságait. Ez azt jelenti, hogy ha a szülő mozog, a gyermek GameObject is mozogni fog, de megtartja azt a tulajdonságát, hogy függetlenül manipulálható. Például egy autó kerekei (gyermek GameObjectek) önállóan is foroghatnak, miközben az autó (szülő GameObject) részei.\cite{unityhierarchy}
+A Unityben a \texttt{GameObject}-ek rendszerezése a scene-en belül hatékonyan egy szülő-gyermek hierarchián keresztül történik. Ez a hierarchikus, fára emlékeztető struktúra lehetővé teszi a \texttt{GameObject}-ek összekapcsolását. A szülő \texttt{GameObject} olyan tárolóként működik, amely hatással van a gyermekeire: a szülőre alkalmazott bármilyen transzformáció, például a mozgatás, forgatás vagy méretezés a gyermek \texttt{GameObject}-ekben is tükröződik. Minden gyermek \texttt{GameObject} a szülőjéhez kapcsolódik, és örökli annak transzformációs tulajdonságait. Ez azt jelenti, hogy ha a szülő mozog, a gyermek \texttt{GameObject} is mozogni fog, de megtartja azt a tulajdonságát, hogy függetlenül manipulálható. Például egy autó kerekei (gyermek \texttt{GameObject}-ek) önállóan is foroghatnak, miközben az autó (szülő \texttt{GameObject}) részei.\cite{unityhierarchy}
 
-A hierarchikus rendszer különösen hasznos az összetett scene-ek kezelésében az összetartozó objektumok csoportosításában. Segít fenntartani a relatív pozíciókat egy objektum különböző összetevői között, amikor az egész objektum mozog. A hierarchia ráadásul különböző szinteken egymásba ágyazható, részletes és szervezett jelenetstruktúrát hozva létre.\cite{unityhierarchy} Például a Collectibles szülő GameObject és annak a Diamond gyermek GameObject-ei \aref{fig:hierarchydiamond}. ábrán látható.
+A hierarchikus rendszer különösen hasznos az összetett scene-ek kezelésében az összetartozó objektumok csoportosításában. Segít fenntartani a relatív pozíciókat egy objektum különböző összetevői között, amikor az egész objektum mozog. A hierarchia ráadásul különböző szinteken egymásba ágyazható, részletes és szervezett jelenetstruktúrát hozva létre.\cite{unityhierarchy} Például a \texttt{Collectibles} szülő \texttt{GameObject} és annak a \texttt{Diamond} gyermek \texttt{GameObject}-ei \aref{fig:hierarchydiamond}. ábrán látható.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.6]{images/hierarchia.png}
-\caption{A Colletibles objektum szülő-gyerek kapcsolatai}
+\includegraphics[scale = 1.0]{images/hierarchia.png}
+\caption{A \texttt{Colletibles} objektum szülő-gyerek kapcsolatai}
 \label{fig:hierarchydiamond}
 \end{figure}
 
-Ez a szülő-gyermek hierarchia a Unity tervezésének egyik alappillére, amely leegyszerűsíti a jelenetszervezést és biztosítja a kapcsolódó GameObjectek közötti koordinált transzformációkat.
+Ez a szülő-gyermek hierarchia a Unity tervezésének egyik alappillére, amely leegyszerűsíti a jelenetszervezést és biztosítja a kapcsolódó \texttt{GameObject}-ek közötti koordinált transzformációkat.
 
 \Section{Az irányítható hős és a kamera}
 
-Kezdetben be kell importálni az általunk kiválasztott assetet\cite{unityasset1} a Unity szerkesztőjébe, amelynek a neve SunnyLand. Ha ezt megtettük, akkor a Project fül alatt fogjuk látni a beimportált kellékeket, amelyekkel a játékunkat elkészítjük. A hierarchia ablaknál egyelőre csak a MainCamera GameObject-et látjuk, amely a nevéből is adódik, a fő kameránk. Ahhoz, hogy legyen egy irányítható karakterünk, előszőr a beimportált asset közül ki kell választani a karakterünk tétlen pozícióját reprezentáló Sprite-ot, majd egyszerűen a Scene ablakra kell húznunk, így létre is jön egy GameObject, amelynek tetszőleges nevet adhatunk. Az én esetemben a neve a Fox lett, mivel a karakterem egy róka.
+Kezdetben be kell importálni az általunk kiválasztott assetet \cite{unityasset1} a Unity szerkesztőjébe, amelynek a neve SunnyLand. Ha ezt megtettük, akkor a \texttt{Project}fül alatt fogjuk látni a beimportált kellékeket, amelyekkel a játékunkat elkészítjük. A hierarchia ablaknál egyelőre csak a MainCamera \texttt{GameObject}-et látjuk, amely a nevéből is adódik, a fő kameránk. Ahhoz, hogy legyen egy irányítható karakterünk, előszőr a beimportált asset közül ki kell választani a karakterünk tétlen pozícióját reprezentáló Sprite-ot, majd egyszerűen a Scene ablakra kell húznunk, így létre is jön egy \texttt{GameObject}, amelynek tetszőleges nevet adhatunk. Az én esetemben a neve a Fox lett, mivel a karakterem egy róka.
 
-Ha rámegyünk a Fox objektumra, akkor láthatjuk, hogy az első komponens az a Transform komponens. Ez minden egyes GameObject-hez automatikusan hozzá van rendelve, ez a Unity egyik legfontosabb komponense. Ezzel a komponenssel határozhatjuk meg az objektumunk helyzetét, forgását és a méretarányát. 
-Az objektumunk helyzetét a „position” fülnél lévő X Y és Z értékek változtatásával tudjuk megváltoztatni. A forgását a „rotation” fülnél levő szintén X Y és Z értékek változtatásával tudjuk megváltoztatni. Végül, a „scale” opciónál lévő X Y és Z értékek határozzák meg a GameObject méretét a jelenetben. 
+Ha rámegyünk a Fox objektumra, akkor láthatjuk, hogy az első komponens az a \texttt{Transform} komponens. Ez minden egyes \texttt{GameObject}-hez automatikusan hozzá van rendelve, ez a Unity egyik legfontosabb komponense. Ezzel a komponenssel határozhatjuk meg az objektumunk helyzetét, forgását és a méretarányát. 
+Az objektumunk helyzetét a „position” fülnél lévő X, Y és Z értékek változtatásával tudjuk megváltoztatni. A forgását a „rotation” fülnél levő szintén X, Y és Z értékek változtatásával tudjuk megváltoztatni. Végül, a „scale” opciónál lévő X, Y és Z értékek határozzák meg a \texttt{GameObject} méretét a jelenetben. 
 Ezeket az értékeket szinte minden esetben manipulálják, változtatják és nem csak a Unity szerkesztőjében, hanem szkripteken keresztül is. \cite{transformcomponent}
 
-A második komponens pedig a Sprite Renderer komponens, amely lényegében egy olyan eszköz a Unityben, amely a 2D-s képek megjelenítésére és kezelésére szolgál játék közben és nagyfokú ellenőrzést biztosít a képek megjelenítésének és interakciójának módjára. 
+A második komponens pedig a \texttt{Sprite Renderer} komponens, amely lényegében egy olyan eszköz a Unityben, amely a 2D-s képek megjelenítésére és kezelésére szolgál játék közben és nagyfokú ellenőrzést biztosít a képek megjelenítésének és interakciójának módjára. 
 
-Ahhoz, hogy ezt a Fox objektumot fizikai alapú objektummá tegyük, hozzá kell adnunk a Rigidbody2D komponenst. A Rigidbody2D komponens a Unityben fizika alapú viselkedést ad a 2D-s sprite-okhoz. Amikor hozzáadjuk ezt a komponenst az objektumunkhoz, akkor a Unity ezt az objektumot a fizikai motorjának az irányítása alá vonja. Ez azt jelenti, hogy hatással lehetnek az objektumunkra különböző fizikai események, például a gravitáció. A Rigidbody2D átveszi az objektum mozgatásának irányítását a Transform komponenstől. Fontos, hogy a szkriptünkben a Rigidbody2D-t mozgassuk a Transform helyett a pontos fizikai szimulációk, valamint az ütközésérzékelés érdekében. Sok dolgot lehet változtatni a Rigidbody2D komponensen belül, mint például a test típusát, amelyet én dinamikusra állítottam annak érdekében, hogy ne lebegjen a levegőben a karakterem. \cite{unityrigidbody2d}
+Ahhoz, hogy ezt a Fox objektumot fizikai alapú objektummá tegyük, hozzá kell adnunk a \texttt{Rigidbody2D} komponenst. A \texttt{Rigidbody2D} komponens a Unityben fizika alapú viselkedést ad a 2D-s sprite-okhoz. Amikor hozzáadjuk ezt a komponenst az objektumunkhoz, akkor a Unity ezt az objektumot a fizikai motorjának az irányítása alá vonja. Ez azt jelenti, hogy hatással lehetnek az objektumunkra különböző fizikai események, például a gravitáció. A \texttt{Rigidbody2D} átveszi az objektum mozgatásának irányítását a \texttt{Transform} komponenstől. Fontos, hogy a szkriptünkben a \texttt{Rigidbody2D}-t mozgassuk a \texttt{Transform} helyett a pontos fizikai szimulációk, valamint az ütközésérzékelés érdekében. Sok dolgot lehet változtatni a \texttt{Rigidbody2D} komponensen belül, mint például a test típusát, amelyet én dinamikusra állítottam annak érdekében, hogy ne lebegjen a levegőben a karakterem. \cite{unityrigidbody2d}
 
 A másik dolog, amit át kellett állítanom az a „collision detection” érték, amelyet diszkrétről állítottam át folytonosra, hogy egyfolytában érzékelje az objektum, ha egy másik objektummal ütközik. A harmadik fontos dolog, hogy a korlátozások fül alatt lévő „Freeze Rotation Z” rublikát be kell pipálni, mert ha nem tesszük, akkor folyamatosan el fog dőlni a karakterünk.
 
- A következő komponens, amit hozzá kell adnunk az objektumunkhoz, az a Capsule Collider2D, amely egy kapszula alakú ütköztetőt biztosít, amely kölcsönhatásba lép a Unity 2D-s fizikai rendszeréve. Ha egy Rigidbody2D komponens is kapcsolódik ugyanahhoz a GameObjecthez, a Capsule Collider 2D lehetővé teszi, hogy az objektum fizikailag kölcsönhatásba lépjen a jelenet más objektumaival. Ez magában foglalja a gravitációra, erőkre és ütközésekre való reagálást. Ezt a komponenst kétszer kellett hozzáadnom az objektumhoz, mivel guggolásnál alacsonyabb méretű és  A talajhoz, amelyet kezdetben létrehoztam, ahhoz viszont a Box Collider2D komponenst kellett hozzáadnom.\cite{unityrigidbody2d} A Fox objektum komponensei \aref{fig:foxcomponents}. ábrán láthatóak.
+ A következő komponens, amit hozzá kell adnunk az objektumunkhoz, az a \texttt{Capsule Collider2D}, amely egy kapszula alakú ütköztetőt biztosít, amely kölcsönhatásba lép a Unity 2D-s fizikai rendszeréve. Ha egy \texttt{Rigidbody2D} komponens is kapcsolódik ugyanahhoz a \texttt{GameObject}-hez, a \texttt{Capsule Collider 2D} lehetővé teszi, hogy az objektum fizikailag kölcsönhatásba lépjen a jelenet más objektumaival. Ez magában foglalja a gravitációra, erőkre és ütközésekre való reagálást. Ezt a komponenst kétszer kellett hozzáadnom az objektumhoz, mivel guggolásnál alacsonyabb méretű és  A talajhoz, amelyet kezdetben létrehoztam, ahhoz viszont a \texttt{Box Collider2D} komponenst kellett hozzáadnom.\cite{unityrigidbody2d} A Fox objektum komponensei \aref{fig:foxcomponents}. ábrán láthatóak.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.4]{images/foxcomponents.png}
+\includegraphics[scale = 0.7]{images/foxcomponents.png}
 \caption{A Fox objektum komponensei}
 \label{fig:foxcomponents}
 \end{figure}
-\newpage
-\SubSection{A PlayerMovement osztály}
 
-Ahhoz, hogy mozgásra bírjam a karakteremet, készítenem kell egy szkriptet. A Project ablakban létrehoztam egy „Scripts” nevű mappát, amelyben létrehoztam egy C\# szkriptet PlayerMovement néven. Mielőtt bármit is programoznánk, először is a PlayerMovement szkriptet mint komponenst hozzá kell adnunk a Fox objektumunkhoz. A Unity automatikusan elkészíti nekünk a PlayerMovement osztályt, amely a MonoBehaviour osztályból örököl metódusokat. A PlayerMovement osztály osztálydiagramja \aref{fig:playermovementclass}. ábrán látható. 
+\newpage
+\SubSection{A \texttt{PlayerMovement} osztály}
+
+Ahhoz, hogy mozgásra bírjam a karakteremet, készítenem kell egy szkriptet. A \texttt{Project} ablakban létrehoztam egy „Scripts” nevű mappát, ahol létrehoztam egy C\# szkriptet \texttt{PlayerMovement} néven. Mielőtt bármit is programoznánk, először is a \texttt{PlayerMovement} szkriptet mint komponenst hozzá kell adnunk a Fox objektumunkhoz. A Unity automatikusan elkészíti nekünk a \texttt{PlayerMovement} osztályt, amely a \texttt{MonoBehaviour} osztályból örököl metódusokat. A \texttt{PlayerMovement} osztály osztálydiagramja \aref{fig:playermovementclass}. ábrán látható. 
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.5]{images/playerclass.png}
-\caption{A PlayerMovement osztály osztálydiagramja}
+\includegraphics[scale = 0.8]{images/playerclass.png}
+\caption{A \texttt{PlayerMovement} osztály osztálydiagramja}
 \label{fig:playermovementclass}
 \end{figure}
 
+\newpage
 Ilyen metódus például az \texttt{Awake()} metódus, amely akkor hívódik meg, amikor a jelenetünk betöltődik. Ez a metódus egyetlen egyszer fut le az élete során. A \texttt{Start()} metódus az \texttt{Awake()} metódushoz hasonlóan szintén egyszer fut le, azzal a különbséggel, hogy az \texttt{Awake()} hamarabb hívódik meg, ha mindkét metódus szerepel a programban. Ezeket csak olyan parancsokhoz érdemes használni, amelyeket csak egyszer szeretnénk lefuttatni. Például akkor, amikor referenciákat szeretnénk eltárolni komponens típusú változókban. A \texttt{Start()} metódus után következő \texttt{Update()} metódus is Unity által definiált, amely minden egyes képkockafrissítésnél hívódik meg. Ebből van több verzió, amelyek a \texttt{FixedUpdate()} és a \texttt{LateUpdate()}. A \texttt{FixedUpdate()} határozott időközönként kerül meghívásra, tehát független a képkockafrissítéstől. A \texttt{LateUpdate()} viszont képkockafrissítésenként hívódik meg, miután az \texttt{Update()} metódus már lefutott. 
 
 Én az \texttt{Update()} és a \texttt{FixedUpdate()} függvényeket használtam. Az \texttt{Update()} függvény tartalmazza a \texttt{horizontalValue} inicializálását, a sebesség növelését amikor a karakter nem sétál hanem fut, valamint az ugrás és a guggolás parancsait is ebben a függvénybe helyeztem el. A karakterem „halotti állapotát” is az \texttt{Update()} függvényben kezelem le, ha az \texttt{isDead} változó értéke igaz, a metódus azonnal visszatér, kihagyva minden bemeneti feldolgozást. A \texttt{FixedUpdate()} függvényben hívom meg a \texttt{Move()} és a \texttt{GroundCheck()} metódusokat. Az alábbi metódus a \cite{youtubeplaylist} videósorozat alapján készült.
@@ -129,9 +131,9 @@ Ilyen metódus például az \texttt{Awake()} metódus, amely akkor hívódik meg
  }
 \end{java}
 
-A továbbiakban a PlayerMovement osztály metódusait fogom részletezni.
+A továbbiakban a \texttt{PlayerMovement} osztály metódusait fogom részletezni.
 
-A \texttt{GroundCheck()} metódussal azt vizsgálom, hogy a Fox objektum egyik gyermek objektuma, a GroundCheck  objektum ütközik-e más, a „Ground” rétegben lévő 2DCollider-ekkel. A \texttt{wasGrounded} változó az \texttt{isGrounded} változó előző állapotát tárolja. Az \texttt{OverlapCircleAll()} metódus a Unity Physics2D-t használja annak ellenőrzésére, hogy a \texttt{groundCheckCollider} átfedésben van-e a \texttt{groundLayer} bármelyik ütközőjével. Ez az ellenőrzés a \texttt{groundCheckRadius} által meghatározott körön belül történik. Ezt a metódust egyenlővé tettem a \texttt{Colliders2D[]} típusú \texttt{colliders} nevezetű változóval, hiszen ha átfedés történik, akkor ez a metódus egy 0-nál nagyobb számmal tér vissza. Ha a \texttt{colliders} értéke nagyobb mint 0, akkor az \texttt{isGrounded} értékét igazra állítom, valamint, ha a levegőből érkezett a földre a karakterem, akkor egy landolási hangeffekt kerül lejátszásra. Ha a \texttt{colliders} értéke egyenlő a 0-val, akkor az \texttt{isGrounded} értéket hamisra állítom. A metódus végén a \texttt{Jump} animátor paramétert hamisra állítom, hogy az ugrás animáció leálljon. Az alábbi metódus a \cite{youtubeplaylist} videósorozat alapján készült.
+A \texttt{GroundCheck()} metódussal azt vizsgálom, hogy a Fox objektum egyik gyermek objektuma, a \texttt{GroundCheck}  objektum ütközik-e más, a „Ground” rétegben lévő 2DCollider-ekkel. A \texttt{wasGrounded} változó az \texttt{isGrounded} változó előző állapotát tárolja. Az \texttt{OverlapCircleAll()} metódus a Unity Physics2D-t használja annak ellenőrzésére, hogy a \texttt{groundCheckCollider} átfedésben van-e a \texttt{groundLayer} bármelyik ütközőjével. Ez az ellenőrzés a \texttt{groundCheckRadius} által meghatározott körön belül történik. Ezt a metódust egyenlővé tettem a \texttt{Colliders2D[]} típusú \texttt{colliders} nevezetű változóval, hiszen ha átfedés történik, akkor ez a metódus egy 0-nál nagyobb számmal tér vissza. Ha a \texttt{colliders} értéke nagyobb mint 0, akkor az \texttt{isGrounded} értékét igazra állítom, valamint, ha a levegőből érkezett a földre a karakterem, akkor egy landolási hangeffekt kerül lejátszásra. Ha a \texttt{colliders} értéke egyenlő a 0-val, akkor az \texttt{isGrounded} értéket hamisra állítom. A metódus végén a \texttt{Jump} animátor paramétert hamisra állítom, hogy az ugrás animáció leálljon. Az alábbi metódus a \cite{youtubeplaylist} videósorozat alapján készült.
 
 \begin{java}
 void GroundCheck()
@@ -167,7 +169,7 @@ void GroundCheck()
 
 A \texttt{Move()} metódus tartalmazza a karakter X és Y tengelyen való mozgatását, hogyha a karakter földön van és megnyomjuk a SPACE billentyűt, akkor ugorjon, valamint azt is, hogyha a karakter megnyomjuk az S billentyűt, akkor guggoljon. Egy objektumot többféle módon mozgathatunk a programon belül. Egy objektum Transform komponensét elérhetjük a \texttt{gameObject.transform} osztályon keresztül, ezen belül több lehetőség is van, például a \texttt{position}-, a \texttt{localScale}-, a \texttt{velocity} tulajdonság vagy a \texttt{Translate()} metódus.
 
-A \texttt{Jumping\&Crouching} részben először ellenőrzöm, hogy a \texttt{crouchFlag} értéke aktív-e. Ha nem aktív, akkor a \texttt{Physics2D.OverlapCircle} segítségével leellenőrzöm, hogy van-e olyan ütköző, amely átfedésben van a megadott pozícióba rajzolt körrel, amelynek a sugara a \texttt{ceilingCheckRadius} változó. Ha az ellenőrzés során bármilyen ütközőt találunk, vagyis valami közvetlenül a Fox objektum fölött van, akkor a \texttt{crouchFlag} igaz értéket kap. Ez gyakorlatilag guggoló helyzetben tartja a játékost, amíg egy olyan platform alatt van, amely ütközik a CeilingCheck objektummal. A következő fő blokk ellenőrzi, hogy a játékos földön van-e. Ha igen, akkor feldolgozza az ugrás és a guggolás mechanikáját.
+A \texttt{Jumping\&Crouching} részben először ellenőrzöm, hogy a \texttt{crouchFlag} értéke aktív-e. Ha nem aktív, akkor a \texttt{Physics2D.OverlapCircle} segítségével leellenőrzöm, hogy van-e olyan ütköző, amely átfedésben van a megadott pozícióba rajzolt körrel, amelynek a sugara a \texttt{ceilingCheckRadius} változó. Ha az ellenőrzés során bármilyen ütközőt találunk, vagyis valami közvetlenül a Fox objektum fölött van, akkor a \texttt{crouchFlag} igaz értéket kap. Ez gyakorlatilag guggoló helyzetben tartja a játékost, amíg egy olyan platform alatt van, amely ütközik a \texttt{CeilingCheck} objektummal. A következő fő blokk ellenőrzi, hogy a játékos földön van-e. Ha igen, akkor feldolgozza az ugrás és a guggolás mechanikáját.
 
  A guggolás mechanikája a következő: ha a \texttt{crouchFlag} igaz (mely értéket az S billentyű vagy a fentebb említett feltétel vált ki), akkor a \texttt{standingCollider.enabled} értéket hamisra állítom. A guggolás az \texttt{animator.SetBool(„Crouch”, crouchFlag)} segítségével kapcsolható ki és be. Ha a \texttt{crouchFlag} értéket igaz, akkor a guggolás animáció lejátszódik, ha hamis, akkor viszont nem. Az ugrás mechanizmusa a következő: még mindig az ellenőrzésen belül, hogy a játékos a földön tartózkodik-e, ha a \texttt{jumpFlag} értéke igaz (melyet jellemzően egy ugrás billentyű, esetemben a szóköz vált ki), több művelet is történik. Az egyik az, hogy az \texttt{isGrounded} értékét hamisra állítom, ezzel jelezve, hogy a játékos ugrást kezdeményezett, és már nem érintkezik a talajjal. Ezután az \texttt{audioManager.PlaySFX(audioManager.jumping)} metódus segítségével egy ugrás hanghatás kerül lejátszásra. A Rigidbody2D komponensre egy felfelé ható erő fog hatni a \texttt{rb.AddForce(new UnityEngine.Vector2(0f, jumpPower))} metódus által. A \texttt{Vector2} itt úgy van felépítve, hogy az x értékhez nincs erő rendelve, az y értékhez viszont a \texttt{jumpPower} értéket rendelem hozzá, ami függőlegesen fogja felfele tolni a Fox objektumot. Miután lekezeltem az ugrás és a guggolás feltételeit, ismét beállítom a \texttt{standingCollider} és a \texttt{crouchingCollider} aktív állapotait. A \texttt{standingCollider} le van tiltva, ha a \texttt{crouchFlag} értéke igaz, ellenkező esetben pedig engedélyezve van. A \texttt{crouchingCollider} engedélyezve van, ha a \texttt{crouchFlag} igaz, és le van tiltva, ha a \texttt{crouchFlag} hamis. Ez azért szükséges, mivel a Fox objektumon kettő darab CapsuleCollider2D található (\texttt{standingCollider} és a \texttt{crouchingCollider}), és ha a játékos ütközne egy ellenséggel, akkor kettő életerőt venne le a játékostól 1 helyett, mivel mindkét komponenssel ütközne az ellenfél. Az alábbi metódus a \cite{youtubeplaylist} videósorozat alapján készült.
 
@@ -257,7 +259,7 @@ public void Death()
 
 \SubSection{A BetterJump osztály}
 
-Ezt az osztályt azért hoztam létre, hogy javítsam az ugrás mechanikáját úgy, hogy a Rigidbody2D sebességét a játékos cselekvései és az ugrás állapota alapján sokkal élethűbbre állítom, mivel a karakterem ugrása kezdetben eléggé furcsának, természetellenesnek tűnt. Ez azért van egyébként, mivel más videójátékokban is a gyorsabb landolás a megszokott, és nem a „lebegős” ugrás. Az igazság az az, hogy a kezdetben implementált ugrás fizikailag helyes, hiszen azt az elképzelést követi, hogy bármennyi időbe telik is az, hogy az ugrásunk csúcsára érjünk, ugyan annyi időbe telik, amíg visszaérünk a földre.\cite{betterjump}
+Ezt az osztályt azért hoztam létre, hogy javítsam az ugrás mechanikáját úgy, hogy a Rigidbody2D sebességét a játékos cselekvései és az ugrás állapota alapján sokkal élethűbbre állítom, mivel a karakterem ugrása kezdetben eléggé furcsának, természetellenesnek tűnt. Ez azért van egyébként, mivel más videójátékokban is a gyorsabb landolás a megszokott, és nem a „lebegős” ugrás. Az igazság az az, hogy a kezdetben implementált ugrás fizikailag helyes, hiszen azt az elképzelést követi, hogy bármennyi időbe telik is az, hogy az ugrásunk csúcsára érjünk, ugyan annyi időbe telik, amíg visszaérünk a földre. \cite{betterjump}
 
 \begin{figure}[ht]
 \centering
@@ -268,9 +270,9 @@ Ezt az osztályt azért hoztam létre, hogy javítsam az ugrás mechanikáját �
 
 A videójátékokban ezt teljesen másképp kezelik. Az előbb leírt elmélet azt feltételezi, hogy ugyan annyi képkocka elérni a csúcsot, mint elérni a talajt. Azt kell tehát elérni, hogy több időt töltsön a levegőben a karakter amikor felfelé megy, mint amikor lefelé. Ezt a gravitáció manipulálásával lehet elérni.\cite{betterjump}
 
-Először is létrehozok egy \texttt{Rigidbody2d} típusú \texttt{rb} nevű változót, amely a Rigidbody2D komponensre fog hivatkozni. Utána létrehozok két darab publikus \texttt{float} típusú változót, a \texttt{fallMultiplier}-t és a \texttt{lowJumpMultiplier}-t, amelyek segítségével be fogom tudni állítani a karakteremre ható gravitációs erőt eséskor és alacsony ugráskor (olyan ugrás, amikor az ugrás gombot gyorsan elengedjük), így az ugrás vagy erőteljesebb vagy kevésbé erőteljes lesz. Az \texttt{Awake()} metódusban a szkript megkapja a Rigidbody2D komponenst a GameObjectből, amelyhez a szkript csatlakozik, és az \texttt{rb} változóban tárolja.
+Először is létrehozok egy \texttt{Rigidbody2d} típusú \texttt{rb} nevű változót, amely a Rigidbody2D komponensre fog hivatkozni. Utána létrehozok két darab publikus \texttt{float} típusú változót, a \texttt{fallMultiplier}-t és a \texttt{lowJumpMultiplier}-t, amelyek segítségével be fogom tudni állítani a karakteremre ható gravitációs erőt eséskor és alacsony ugráskor (olyan ugrás, amikor az ugrás gombot gyorsan elengedjük), így az ugrás vagy erőteljesebb vagy kevésbé erőteljes lesz. Az \texttt{Awake()} metódusban a szkript megkapja a Rigidbody2D komponenst a \texttt{GameObject}-ből, amelyhez a szkript csatlakozik, és az \texttt{rb} változóban tárolja.
 
-Az \texttt{Update()} metódus aktívan figyeli a játékos ugrási feltételeit, hogy módosításokat alkalmazzon az ugrás fizikájában. Ha a karakter zuhan – amit a játékos sebességében lévő y-komponens jelez -, a szkript növeli a gravitációs erő vonzását. Ez úgy történik, hogy a Rigidbody sebességét a \texttt{Vector2.up} és a \texttt{Physics2D.gravity.y}, valamint a beállított \texttt{fallMultiplier} szorzataként kiszámított és a \texttt{Time.deltaTime} értékkel skálázott hozzáadott erővel módosítja. Ez a képlet jelentősen felgyorsítja a játékos esését az ugrás csúcspontjának elérése után, így valósághűbb és kielégítőbb esést lehet biztosítani.
+Az \texttt{Update()} metódus aktívan figyeli a játékos ugrási feltételeit, hogy módosításokat alkalmazzon az ugrás fizikájában. Ha a karakter zuhan –- amit a játékos sebességében lévő y-komponens jelez --, a szkript növeli a gravitációs erő vonzását. Ez úgy történik, hogy a Rigidbody sebességét a \texttt{Vector2.up} és a \texttt{Physics2D.gravity.y}, valamint a beállított \texttt{fallMultiplier} szorzataként kiszámított és a \texttt{Time.deltaTime} értékkel skálázott hozzáadott erővel módosítja. Ez a képlet jelentősen felgyorsítja a játékos esését az ugrás csúcspontjának elérése után, így valósághűbb és kielégítőbb esést lehet biztosítani.
 
 Ezzel szemben, ha a játékos ugrik, és gyorsan elengedi az ugrás gombot (ezek a pozitív y-sebességgel és az „ugrás” gomb megnyomásának hiányával észlelhető), alacsony ugrást fog eredményezni. Ezt úgy lehet elérni, hogy a \texttt{lowJumpMultiplier} segítségével kissé növeljük a gravitációt, ami csökkenti az emelkedés meredekségét és gyorsítja az ereszkedést. Ez a feltétel lehetővé teszi, hogy gyors, kevésbé erőteljes ugrásokat hajtsanak végre a játékosok. Az alábbi osztály a \cite{betterjump} videó alapján készült.
 
@@ -310,9 +312,9 @@ public class BetterJump : MonoBehaviour
 
 A grappling hook mechanizmus a videójátékokban általában egy kötél, amelyre egy csáklya vagy valamilyen karommal rendelkező eszköz van ráerősítve, majd ezt a játékokban kilövik vagy eldobják, amely megakad a célpontban, és odahúzza a játékost az célponthoz, vagy a célpontot húzza oda a játékoshoz. A játékomban a játékost húzza majd oda a célponthoz, azaz egy falhoz, mivel csak a tile-okhoz tudja majd magát odahúzni a játékosom. Ezt a mechanizmust azért építettem bele a játékba, hogy a procedurálisan generált pályát a játékosom végig tudja vinni.
 
-Ahhoz, hogy létre tudjam hozni ezt a játékmechanikát, a Fox objektumomhoz hozzá kellet csatolnom egy úgynevezett Distance Joint 2D komponenst, valamint létre kellett hoznom egy üres GameObject-et, amelynek a Rope nevet adtam. Ehhez a Rope objektumhoz hozzá kellett adnom a Line Renderer komponenst, hogy vizuálisan is látni lehessen a kötelet, amelyet majd a Fox objektum pozíciójából a T betű lenyomására kilő a játékos. Ahhoz, hogy a játékos oda tudja magát húzni a megcélzott falhoz, vagy platformhoz, egy szkriptet kellett írjak.
+Ahhoz, hogy létre tudjam hozni ezt a játékmechanikát, a Fox objektumomhoz hozzá kellet csatolnom egy úgynevezett \texttt{Distance Joint 2D} komponenst, valamint létre kellett hoznom egy üres \texttt{GameObject}-et, amelynek a \texttt{Rope} nevet adtam. Ehhez a \texttt{Rope} objektumhoz hozzá kellett adnom a \texttt{Line Renderer} komponenst, hogy vizuálisan is látni lehessen a kötelet, amelyet majd a Fox objektum pozíciójából a T betű lenyomására kilő a játékos. Ahhoz, hogy a játékos oda tudja magát húzni a megcélzott falhoz, vagy platformhoz, egy szkriptet kellett írjak.
 
-Ennek a szkriptnek a neve Grappling Hook. Ez a szkript a Fox GameObject-hez van csatolva, mivel innen fogja kilőni a játékos a kötelet.
+Ennek a szkriptnek a neve Grappling Hook. Ez a szkript a Fox \texttt{GameObject}-hez van csatolva, mivel innen fogja kilőni a játékos a kötelet.
 
 \textbf{Inicializáció:}
 \begin{itemize}
@@ -325,9 +327,9 @@ Ennek a szkriptnek a neve Grappling Hook. Ez a szkript a Fox GameObject-hez van 
 \item \texttt{public float step}: Azt határozza meg, hogy a grappling hook milyen gyorsan húzódjon vissza.
 \end{itemize}
 
-A Start() metódussal inicializálom a DistanceJoin2D-t, és letiltom a LineRenderer-t, mivel a grappling hook kezdetben nem aktív. Az Update() metódus folyamatosan ellenőrzi, hogy a grappling hook aktív-e, és a távolság alapján beállítja a hosszát vagy leállítja, frissíti a kötél vizuális megjelenítését, hogy kövesse a játékost, valamintf igyel a játékos bemenetére a kapaszkodási művelet elindításához és leállításához.
+A \texttt{Start()} metódussal inicializálom a \texttt{DistanceJoin2D}-t, majd ezután letiltom a \texttt{LineRenderer} komponenst, mivel a grappling hook kezdetben nem aktív. Az \texttt{Update()} metódus folyamatosan ellenőrzi, hogy a grappling hook aktív-e, és a távolság alapján beállítja a hosszát vagy leállítja, frissíti a kötél vizuális megjelenítését, hogy kövesse a játékost, valamintf igyel a játékos bemenetére a kapaszkodási művelet elindításához és leállításához.
 
-A StartGrappling() metódus átalakítja az egér pozícióját világkoordinátákká, és ellenőrzi, hogy van-e érvényes célpont a grappling hook rögzítéséhez egy raycast segítségével. Ha érvényes célpontot talál, létrehoz egy új GameObjectet, amely a grappling hook horgonypontjaként szolgál, és hozzácsatolja a DistanceJoint2D-t. Ennek az objektumnak a létrehozásához azért volt szükség, mivel a DistanceJoint2D csak olyan objektumhoz tud hozzácsatlakozni, amely rendelkezik Rigidbody2D komponennsel. A platformok viszont nem rendelkeznek Rigidbody komponenssel. Ezután beállítja a vizuális vonalat a játékostól a célpontig. Az alábbi metódus a \cite{grapplinghook1} és a \cite{grapplinghook2} videók alapján készült.
+A \texttt{StartGrappling()} metódus átalakítja az egér pozícióját világkoordinátákká, és ellenőrzi, hogy van-e érvényes célpont a grappling hook rögzítéséhez egy raycast segítségével. Ha érvényes célpontot talál, létrehoz egy új \texttt{GameObject}-et, amely a grappling hook horgonypontjaként szolgál, és hozzácsatolja a \texttt{DistanceJoint2D}-t. Ennek az objektumnak a létrehozásához azért volt szükség, mivel a \texttt{DistanceJoint2D} csak olyan objektumhoz tud hozzácsatlakozni, amely rendelkezik \texttt{Rigidbody2D} komponennsel. A platformok viszont nem rendelkeznek \texttt{Rigidbody} komponenssel. Ezután beállítja a vizuális vonalat a játékostól a célpontig. Az alábbi metódus a \cite{grapplinghook1} és a \cite{grapplinghook2} videók alapján készült.
 
 \begin{java}
 void StartGrappling()
@@ -373,22 +375,23 @@ void StartGrappling()
 
 \SubSection{A MainCamera objektum és a hozzá tartozó szkript}
 
-A MainCamera objektum az egyik legfontosabb eleme bármelyik projektnek, hiszen a játékos ezen keresztül látja a játékvilágot. A főkamera a játékos szemeként működik a játékkörnyezetben, és megjeleníti a képernyőn megjelenő dolgokat. Minden, ami a kamera látóterében van, az az, amit a játékos láthat a játékban. A Unity kamerái perspektivikus vagy ortografikus vetítést használhatnak. A perspektivikus vetítés az emberi szem látásmódját utánozza, a távolabbi elemek kisebbnek tűnnek, míg a közelebbi objektumok nagyobbnak. Az ortografikus vetítés az objektumokat a kamerától való távolságuktól függetlenül azonos méretben jeleníti meg, ami a 2D-s játékokban nagyon gyakori. Perspektivikus kamerák esetében a látómező (Field of View) határozza meg a megfigyelhető világnak a kiterjedését. A kamerák szkriptek segítségével konfigurálhatók és manipulálhatók, annak érdekében, hogy például kövessék a játékost, filmszerű effekteket hozzanak létre vagy reagáljanak a játék eseményeire, növelve a játék interaktivitását és dinamikáját. A Unity lehetővé teszi több kamera használatát a játékjelenet különböző részeinek egyidejű rendereléséhez. Például az egyik kamera beállítható a játékmenethez, míg egy másik megjelenítheti a felhasználói felületet vagy a speciális effekteket. A Unity ezeket a nézeteket egymásra rétegezi, és így hozza létre a végső képet, amelyet a játékos lát. Az Audio Listener komponens jellemzően a MainCamera objektumhoz kapcsolódik, és a jelenetben elhelyezett hangforrásokkal együtt működik.\cite{cameracomponent} A MainCamera objektum, valamint a hozzácsatolt komponensek \aref{fig:maincamera}. ábrán látható.
+A \texttt{MainCamera} objektum az egyik legfontosabb eleme bármelyik projektnek, hiszen a játékos ezen keresztül látja a játékvilágot. A főkamera a játékos szemeként működik a játékkörnyezetben, és megjeleníti a képernyőn megjelenő dolgokat. Minden, ami a kamera látóterében van, az az, amit a játékos láthat a játékban. A Unity kamerái perspektivikus vagy ortografikus vetítést használhatnak. A perspektivikus vetítés az emberi szem látásmódját utánozza, a távolabbi elemek kisebbnek tűnnek, míg a közelebbi objektumok nagyobbnak. Az ortografikus vetítés az objektumokat a kamerától való távolságuktól függetlenül azonos méretben jeleníti meg, ami a 2D-s játékokban nagyon gyakori. Perspektivikus kamerák esetében a látómező (Field of View) határozza meg a megfigyelhető világnak a kiterjedését. A kamerák szkriptek segítségével konfigurálhatók és manipulálhatók, annak érdekében, hogy például kövessék a játékost, filmszerű effekteket hozzanak létre vagy reagáljanak a játék eseményeire, növelve a játék interaktivitását és dinamikáját. A Unity lehetővé teszi több kamera használatát a játékjelenet különböző részeinek egyidejű rendereléséhez. Például az egyik kamera beállítható a játékmenethez, míg egy másik megjelenítheti a felhasználói felületet vagy a speciális effekteket. A Unity ezeket a nézeteket egymásra rétegezi, és így hozza létre a végső képet, amelyet a játékos lát. Az Audio Listener komponens jellemzően a \texttt{MainCamera} objektumhoz kapcsolódik, és a jelenetben elhelyezett hangforrásokkal együtt működik.\cite{cameracomponent} A \texttt{MainCamera} objektum, valamint a hozzácsatolt komponensek \aref{fig:maincamera}. ábrán látható.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.4]{images/maincameracomponents.png}
-\caption{A MainCamera objektum és komponensei}
+\includegraphics[scale = 0.6]{images/maincameracomponents.png}
+\caption{A \texttt{MainCamera} objektum és komponensei}
 \label{fig:maincamera}
 \end{figure}
 
 Ha a hierarchiában ráhúzzuk a kamerát a karakter objektumra, így létrehozva a szülő gyerek kapcsolatot, a kamera követni fogja a játékost. Ekkor a kamera transform értékeit átírva megadhatjuk, hogy mennyire legyen eltolva és elforgatva a karakterhez képest. Kezdésnek ez is elég jó eredményt ad, de amikor már komplexebb mozgásokat szeretnénk megadni a kamerának, programot kell rá írni.
 
-Ezért létrehoztam egy CameraFollow szkriptet, ami a játék kamerájának a mozgásáért, valamint a határainak a beállításáért felel. Létrehoztam egy public Transform típusú, target nevű változót, amely referenciát fog tárolni a Fox objektumról. A \texttt{Vector3 offset} vektor a célpont és a kamera közötti eltolás annak érdekében, hogy a kamera ne legyen közvetlenül a célpont tetején. A \texttt{float smoothFactor} változó a kamera mozgásának az egyenletességét határozza meg. A \texttt{Vector3 minValues} és a \texttt{Vector3 maxValues} vektorok a kamera pozíciójának a minimális és maximális értékeit határozza meg, a kamera mozgását egy adott területre korlátozva. 
+Ezért létrehoztam egy CameraFollow szkriptet, ami a játék kamerájának a mozgásáért, valamint a határainak a beállításáért felel. Létrehoztam egy \texttt{public Transform} típusú, \texttt{target} nevű változót, amely referenciát fog tárolni a Fox objektumról. A \texttt{Vector3 offset} vektor a célpont és a kamera közötti eltolás annak érdekében, hogy a kamera ne legyen közvetlenül a célpont tetején. A \texttt{float smoothFactor} változó a kamera mozgásának az egyenletességét határozza meg. A \texttt{Vector3 minValues} és a \texttt{Vector3 maxValues} vektorok a kamera pozíciójának a minimális és maximális értékeit határozza meg, a kamera mozgását egy adott területre korlátozva. 
 
 Az alább látható a \texttt{Follow()} metódus, aminek a  célja, hogy zökkenőmentesen kövessen egy célpontot meghatározott határokon belül. A módszer azzal kezdődik, hogy a target aktuális pozíciója alapján meghatározza, hogy a kamerát ideális esetben hová kellene pozícionálni. Hozzáad egy előre meghatározott \texttt{offset}-et a célpont pozíciójához, ami lehetővé teszi, hogy a kamera a célponttól állandó távolságot tartson, ahelyett, hogy közvetlenül a célponton ülne. Ez az eltolás különösen hasznos annak biztosításához, hogy a kamera jó rálátást biztosítson az eseményekre, a karaktert a képen tartva, miközben elegendő részt mutat a környezetből. 
 
-A target pozíciójának kiszámítása után a módszer úgy korlátozza ezt a pozíciót, hogy a megadott minimális (\texttt{minValues}) és maximális (\texttt{maxValues}) határértékeken belül maradjon. Ez a \texttt{Mathf.Clamp} segítségével történik, amely a célpozíciót az egyes tengelyekre (x, y, z) vonatkozó \texttt{minValues} és \texttt{maxValues} által meghatározott tartományra korlátozza. Ez a rögzítés biztosítja, hogy a kamera ne mozduljon ki a játékvilág tervezett területéről, például ne mozogjon a szint szélein túl, vagy olyan területekre, ahol nem történik játék.
+A target pozíciójának kiszámítása után a módszer úgy korlátozza ezt a pozíciót, hogy a megadott minimális (\texttt{minValues}) és maximális (\texttt{maxValues}) határértékeken belül maradjon. Ez a \texttt{Mathf.Clamp} segítségével történik, amely a célpozíciót az egyes tengelyekre (\texttt{x, y, z}) vonatkozó \texttt{minValues} és \texttt{maxValues} által meghatározott tartományra korlátozza. Ez a rögzítés biztosítja, hogy a kamera ne mozduljon ki a játékvilág tervezett területéről, például ne mozogjon a szint szélein túl, vagy olyan területekre, ahol nem történik játék.
+
 A kamera végső pozícióját a \texttt{Vector3.Lerp} függvény segítségével számítjuk ki. Ez a függvény lineárisan interpolál a kamera aktuális pozíciója (\texttt{transform.position}) és a korlátozott célpozíció (\texttt{boundPos}) között egy simítási tényező (\texttt{smoothFactor}) alapján. Az interpoláció a \texttt{Time.fixedDeltaTime} értékkel szorzódik meg, hogy a mozgás sima és egyenletes legyen a különböző képkocka sebességek között. Az alábbi metódus a \cite{youtubeplaylist} videósorozat alapján készült.
 
 \begin{java}
@@ -415,12 +418,12 @@ void Follow()
 }
 \end{java}
 
-Miután elkészítettem a \texttt{Follow()} metódust, és beállítottam az első pályán a kamera határait, rájöttem, hogy eléggé időigényes, ezért elkezdtem keresgélni, hogy hogyan is lehetne egyszerűbben, és gyorsabban beállítani ezeket a határokat, mivel nem csak ez lesz az egyetlen szint a játékomban. A legjobbnak tűnő megoldás egy grafikus felhasználói felület elkészítése, amely az Inspector menüben, a CameraFollow szkriptnél jelenik meg. Az általam kreált GUI \aref{fig:gui}. ábrán tekinthető meg.
+Miután elkészítettem a \texttt{Follow()} metódust, és beállítottam az első pályán a kamera határait, rájöttem, hogy eléggé időigényes, ezért elkezdtem keresgélni, hogy hogyan is lehetne egyszerűbben, és gyorsabban beállítani ezeket a határokat, mivel nem csak ez lesz az egyetlen szint a játékomban. A legjobbnak tűnő megoldás egy grafikus felhasználói felület elkészítése, amely az Inspector menüben, a CameraFollow szkriptnél jelenik meg. Az általam létrehozott GUI \aref{fig:gui}. ábrán tekinthető meg.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.55]{images/gui.png}
-\caption{A MainCamera objektum általam létrehozott GUI része}
+\includegraphics[scale = 0.9]{images/gui.png}
+\caption{A \texttt{MainCamera} objektum általam létrehozott GUI része}
 \label{fig:gui}
 \end{figure}
 
@@ -495,7 +498,7 @@ A kamerabeállítás lépései \aref{fig:camerasteps}. ábrán láthatóak.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.7]{images/camerasteps.png}
+\includegraphics[scale = 0.9]{images/camerasteps.png}
 \caption{A kamera minimumértékének beállítási lépései}
 \label{fig:camerasteps}
 \end{figure}
@@ -555,7 +558,7 @@ else if (script.state == CameraFollow.SetupState.Step2)
 }
 \end{java}
 
-\Section{Az irányítható karakter meganimálása}
+\Section{Az irányítható karakter animálása}
 
 Anélkül, hogy programot írnánk, a Unity képes animálás segítségével mozgatni objektumokat. Erre jó példa a játékomban például az ugrás, futás, landolás, guggolás, az ellenségek és az érmék animációi. Ezeket az animator controller valósítja meg, melyre gondolhatunk úgy, mint egy állapotgépre\cite{animatorcomponent}. Vannak állapotok, melyek egy-egy animációt reprezentálnak és vannak állapotátmenetek, melyek a végpontjaikban található animációkat felhasználva váltanak az egyik animációról a másikra. Ez a váltás történhet automatikusan, vagy paraméterek, küszöbértékek megadásával is.
 
@@ -596,7 +599,7 @@ A Unity Tile Palette egy olyan eszköz, amellyel létrehozhatjuk, rendszerezhetj
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.6]{images/tilepalette.png}
+\includegraphics[scale = 0.8]{images/tilepalette.png}
 \caption{A TilePalette}
 \label{fig:tilepalette}
 \end{figure}
@@ -612,11 +615,12 @@ Az első szint \aref{fig:firstlevel}. ábrán látható.
 \label{fig:firstlevel}
 \end{figure}
 
+\newpage
 \SubSection{A RuleTiles használata}
 
-Az első szintet még a RuleTiles használata nélkül készítettem el. Sajnos elég monoton és nehézkes volt az elkészítése, mert mindig oda kellett figyelni, hogy a megfelelő tile-t használjam. Ezért keresgélni kezdtem az interneten, hogy hogyan is lehetne a pályák elkészítését könnyebbé tenni, és ekkor bukkantam rá a RuleTiles-ra. A Rule Tile Asset egy hatékony és adaptív módja annak, hogy tile-okat fessünk egy jelenetbe. Általában a Tilemap használatakor a tile-ok festése viszonylag gyors, de ismétlődő és nehézkes is lehet, különösen, ha változtatásokat kell végrehajtani a tile-okon. A Rule Tiles ezzel szemben képes illeszkedni és alkalmazkodni a környező tile-okhoz, így gyors és kényelmes módját kínálja a tile-ok hozzáadásának vagy módosításának. Ha például egy Rule Tile-t festünk a Scene képernyőre a meglévő tile-ok mellé, a meglévő tile-ok automatikusan frissülnek.\cite{unityruletile}
+Az első szintet még a RuleTiles használata nélkül készítettem el. Sajnos elég monoton és nehézkes volt az elkészítése, mert mindig oda kellett figyelni, hogy a megfelelő tile-t használjam. Ezért keresgélni kezdtem az interneten, hogy hogyan is lehetne a pályák elkészítését könnyebbé tenni, és ekkor bukkantam rá a RuleTiles-ra. A Rule Tile Asset egy hatékony és adaptív módja annak, hogy tile-okat fessünk egy jelenetbe. Általában a Tilemap használatakor a tile-ok festése viszonylag gyors, de ismétlődő és nehézkes is lehet, különösen, ha változtatásokat kell végrehajtani a tile-okon. A Rule Tiles ezzel szemben képes illeszkedni és alkalmazkodni a környező tile-okhoz, így gyors és kényelmes módját kínálja a tile-ok hozzáadásának vagy módosításának. Ha például egy Rule Tile-t festünk a Scene képernyőre a meglévő tile-ok mellé, a meglévő tile-ok automatikusan frissülnek. \cite{unityruletile}
 
-Ahhoz, hogy létrehozzunk egy ilyen RuleTile-t, a fenti legördülő Assets menüpontból ki kell választanunk a Create fült, onnan a 2D-t, utána Tile-t és itt pedig a RuleTile-t amelyet én a Tiles mappába mentettem el Ground RuleTile néven. Ha kiválasztjuk, láthatjuk a tulajdonságait az Inspector fül alatt. Ha ezzel megvagyunk, készítenünk kell egy új palettát, és oda csak szimplán be kell húzni az elkészített RuleTile-t. Miután hozzáadtuk a palettánkhoz, ismét kiválasztjuk az általunk kreált RuleTile-t, és szabályokat kell hozzáadnunk.\cite{unityruletile} Én 9 szabályt adtam hozzá, a piros X az éleket jelöli, míg a zöld nyíl azt jelenti, hogy a tile folyamatos. A szabályok \aref{fig:ruletilerules}. ábrán láthatóak.
+Ahhoz, hogy létrehozzunk egy ilyen RuleTile-t, a fenti legördülő Assets menüpontból ki kell választanunk a Create fült, onnan a 2D-t, utána Tile-t és itt pedig a RuleTile-t amelyet én a Tiles mappába mentettem el Ground RuleTile néven. Ha kiválasztjuk, láthatjuk a tulajdonságait az Inspector fül alatt. Ha ezzel megvagyunk, készítenünk kell egy új palettát, és oda csak szimplán be kell húzni az elkészített RuleTile-t. Miután hozzáadtuk a palettánkhoz, ismét kiválasztjuk az általunk létrehozott RuleTile-t, és szabályokat kell hozzáadnunk. \cite{unityruletile} Én 9 szabályt adtam hozzá, a piros X az éleket jelöli, míg a zöld nyíl azt jelenti, hogy a tile folyamatos. A szabályok \aref{fig:ruletilerules}. ábrán láthatóak.
 
 \begin{figure}[ht]
 \centering
@@ -626,7 +630,7 @@ Ahhoz, hogy létrehozzunk egy ilyen RuleTile-t, a fenti legördülő Assets men�
 \end{figure}
 
 \newpage
-A szabályok beállítása után már kezdhetjük is a szintek könnyed és gyors elkészítését.\cite{unityruletile} A RuleTile segítségével elkészített alakzatok \aref{fig:ruletileshapes}. ábrán láthatóak.
+A szabályok beállítása után már kezdhetjük is a szintek könnyed és gyors elkészítését. \cite{unityruletile} A RuleTile segítségével elkészített alakzatok \aref{fig:ruletileshapes}. ábrán láthatóak.
 
 \begin{figure}[ht]
 \centering
@@ -636,7 +640,7 @@ A szabályok beállítása után már kezdhetjük is a szintek könnyed és gyor
 \end{figure}
 
 \newpage
-\Section{Az ellenség és a felvehető objektumok elkészítése, valamint a karakter életvesztésének és halálának az implementálása}
+\Section{Interaktív elemek implementálása}
 
 Az ellenség és a felvehető gyémántok animációját is az animator controller segítségével készítettem el. Egy féle ellenség van, egy oda-vissza mozgó oposszum. Az ellenségek száma a pálya szintjétől függ, minél magasabb a pálya szintje annál több ellenséget helyeztem el, így növelve a pálya nehézségét. A pályákat akkor teljesíti a játékos, ha kikerüli az ellenségeket, valamint felszedte az összes gyémántot. A gyémántok számát is növeltem a szintek nehezítése, és a hosszabb játékidő érdekében.
 
@@ -644,8 +648,8 @@ Az ellenség és a felvehető gyémántok animációját is az animator controll
 
 Ezt az osztályt azért hoztam létre, hogy az ellenséges karaktert két meghatározott pont között oda-vissza mozgásra késztesse. A \texttt{[RequireComponent()]} attribútum a szkript elején arra szolgál, hogy egy BoxCollider2D komponens automatikusan hozzáadódjon minden olyan  GameObject-hez, amelyhez hozzácsatoljuk ezt a szkriptet. Készítettem egy \texttt{Reset()} metódust, amely akkor hívódik meg, amikor a szkriptet először adjuk hozzá egy GameObjecthez. Ez a metódus meghívja az \texttt{Init()} metódust, amely a kezdeti beállításokat konfigurálja. Ezek a beállítások a következők:
 \begin{enumerate}
-\item BoxCollider2D beállítása: A collider-t trigger módba állítja, hogy fizikailag ne blokkoljon más objektumokat, de mégis eseményeket váltson ki.
-\item Root objektum létrehozása: Egy új „\texttt{\_Root}” nevű GameObject jön létre, amely az ellenség és annak útpontjai szülőjeként szolgál, így a hierarchia rendezett marad.
+\item \texttt{BoxCollider2D} beállítása: A collider-t trigger módba állítja, hogy fizikailag ne blokkoljon más objektumokat, de mégis eseményeket váltson ki.
+\item \texttt{Root} objektum létrehozása: Egy új „\texttt{\_Root}” nevű \texttt{GameObject} jön létre, amely az ellenség és annak útpontjai szülőjeként szolgál, így a hierarchia rendezett marad.
 \item Útpontok beállítása: Két \texttt{waypoint} GameObject jön létre, és ezeknek a szülője, a Waypoints objektum, amely a Root gyereke. Ezek a pontok határozzák meg az ellenség „járőrútjának” a kezdő és végpontját.
 \end{enumerate}
 
@@ -655,7 +659,6 @@ Ezt a szkriptet azért hoztam így létre, hogy ha újfajta ellenséget szeretn�
 private void Reset()
 {
     Init();
-    
 }
 void Init()
 {
@@ -709,47 +712,47 @@ void MoveToNextLocation()
     Transform goalPoint = points[nextID];
     //Flip the enemy transform
     //to look into the point's direction
-    if( goalPoint.transform.position.x > 
+    if(goalPoint.transform.position.x > 
         transform.position.x ) 
     {
-        transform.localScale = 
-            new Vector3(-7, 7, 1);
+        transform.localScale = new Vector3(-7, 7, 1);
     }
     else
     {
-        transform.localScale = 
-            new Vector3(7, 7, 1);
+        transform.localScale = new Vector3(7, 7, 1);
     }
     //Move the enemy towards the goal point
     transform.position = 
         Vector2.MoveTowards(transform.position, 
-        goalPoint.position, speed*Time.deltaTime);
+        goalPoint.position, speed * Time.deltaTime);
     //Check the distance between enemy and goal point
     //to trigger next point
+
     if(Vector2.Distance(transform.position, 
         goalPoint.position) < 1f)
     {
         //Check if we're at the end of the line
         //(make the change to -1)
+
         if(nextID == points.Count - 1)
         {
             idChangeValue = -1;
         }
         //Check if we're at the start of the line
         //( make the change to 1)
+
         if(nextID == 0)
         {
             idChangeValue = 1;
         }
         //Apply change on the next ID
         nextID += idChangeValue;
-        
     }
 }
 
 private void OnTriggerEnter2D(Collider2D collision)
 {
-    if( collision.tag == "Player" )
+    if(collision.tag == "Player")
     {
         FindObjectOfType<LifeCount>().LoseLife();
     }
@@ -966,11 +969,11 @@ Ebben a fejezetben a játékom fő-, opció-, szintválasztó-, szünet- és a s
 
 \SubSection{A főmenü}
 
-A Unity-nek a beépített UI elemeit használtam fel a Main Menu nevezetű Scene elkészítéséhez. Amikor készítünk egy UI elemet, akkor a Unity automatikusan kreál egy EventSystem nevű objektumot, amely az eseményeket kezeli, valamint készít neki egy Canvas nevezetű szülőt a hierarchiában, ami igazából egy vászon amire illeszkedni fognak a UI elemek. A Panel és a Button UI elemeket használtam fel a főmenüm elkészítéséhez. A Panel objektumból 2 darab található, az egyik a BackGround, amelynek a Source Image-át a játékomban található background sprite-ra állítottam. A második panel az úgymond egy keret, hogy jobban látszódjanak a Button objektumok. Három gombot készítettem el, a Play, az Options és a Quit gombokat. Mindhárom gombnak egy képet állítottam be háttérnek, amelyeket a Unity Asset Store-on találtam. Ha rámegyünk bármelyik Button objektumra, akkor az Inspector ablaknál van egy olyan opció, hogy \texttt{OnClick()}. Igazából ez egy metódus, és itt tudjuk beállítani, hogy hogy viselkedjen a gomb, ha az ember rákattint. Az \texttt{OnClick()} opció \aref{fig:onclick}. ábrán látható.
+A Unity-nek a beépített \texttt{UI} elemeit használtam fel a Main Menu nevezetű Scene elkészítéséhez. Amikor készítünk egy \texttt{UI} elemet, akkor a Unity automatikusan kreál egy \texttt{EventSystem} nevű objektumot, amely az eseményeket kezeli, valamint készít neki egy \texttt{Canvas} nevezetű szülőt a hierarchiában, ami igazából egy vászon amire illeszkedni fognak a \texttt{UI} elemek. A \texttt{Panel} és a \texttt{Button UI} elemeket használtam fel a főmenüm elkészítéséhez. A \texttt{Panel} objektumból 2 darab található, az egyik a \texttt{BackGround}, amelynek a \texttt{Source Image}-ét a játékomban található background sprite-ra állítottam. A második panel az úgymond egy keret, hogy jobban látszódjanak a \texttt{Button} objektumok. Három gombot készítettem el, a \texttt{Play}, az \texttt{Options} és a \texttt{Quit} gombokat. Mindhárom gombnak egy képet állítottam be háttérnek, amelyeket a Unity Asset Store-on találtam. Ha rámegyünk bármelyik \texttt{Button} objektumra, akkor az Inspector ablaknál van egy olyan opció, hogy \texttt{OnClick()}. Igazából ez egy metódus, és itt tudjuk beállítani, hogy hogy viselkedjen a gomb, ha az ember rákattint. Az \texttt{OnClick()} opció \aref{fig:onclick}. ábrán látható.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.6]{images/onclick.png}
+\includegraphics[scale = 0.9]{images/onclick.png}
 \caption{A Button komponensen belüli OnClick() metódus}
 \label{fig:onclick}
 \end{figure}
@@ -987,39 +990,39 @@ A \texttt{LoadScene()} funkcióval ellentétben, ez a funkció aszinkron módon 
 
 \SubSection{A szint kiválasztásáért felelős menü}
 
-A Level Picker menü elkészítésekor ugyan úgy jártam el, mint a főmenü elkészítésekor, annyi különbséggel, hogy itt nem három, hanem hét darab gombot helyeztem el a Canvas objektumon. Itt 5 darab gomb a játék szintjeinek a betöltéséért felelős, van egy vissza gomb, amely visszaviszi a játékost a főmenübe, valamint van egy Dungeon gomb is, amelynek segítségével a procedurális mapgeneráló algoritmus által kreált szint töltődik be. Ehhez írtam egy \texttt{LevelPicker} nevű szkriptet, amelynek a felépítése hasonlít a \texttt{MainMenu} szkript felépítéséhez. A szintválasztó menü \aref{fig:levelpicker}. ábrán megtekinthető.
+A \texttt{Level Picker} menü elkészítésekor ugyan úgy jártam el, mint a főmenü elkészítésekor, annyi különbséggel, hogy itt nem három, hanem hét darab gombot helyeztem el a \texttt{Canvas} objektumon. Itt 5 darab gomb a játék szintjeinek a betöltéséért felelős, van egy vissza gomb, amely visszaviszi a játékost a főmenübe, valamint van egy \texttt{Dungeon} gomb is, amelynek segítségével a procedurális mapgeneráló algoritmus által kreált szint töltődik be. Ehhez írtam egy \texttt{LevelPicker} nevű szkriptet, amelynek a felépítése hasonlít a \texttt{MainMenu} szkript felépítéséhez. A szintválasztó menü \aref{fig:levelpicker}. ábrán megtekinthető.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[scale = 0.4]{images/levelpicker.png}
-\caption{A játékom LevelPicker menüje}
+\caption{A játékom \texttt{LevelPicker} menüje}
 \label{fig:levelpicker}
 \end{figure}
 
 \SubSection{Az opciók menü}
 
-Az opciók menü megalkotásánál a fő cél az az volt, hogy a játékban lévő háttérzene, valamint a hangeffektek hangerejét betudja állítani magának a játékos a saját tetszése szerint, valamint egy olyan gomb megalkotása, aminek a megnyomására a Help menü előjön. A hangerőszabályozáshoz a Unity beépített Slider UI elemét használtam. A \aref{fig:slider}. ábrán látható, hogy milyen UI elemekből épül is fel egy Slider. A Background elem az magának a Slider-nek a háttere, vagyis amikor teljesen levesszük a hangerőt, milyen színű legyen a csúszka, én ezt fehérre állítottam. A Fill Area gyermekobjektumát, a Fill objektumot én piros-ra állítottam. Piros színű lesz a slider, ha teljesen felvesszük a hangerőt. A Handle Slide Area gyermekobjektumát, a Handle objektumot alapértelmezetten hagytam, csak a színét állítottam át pirosra. Használtam még Text UI elemet is, hogy meg tudja a játékos különböztetni, hogy melyik hangerőt állítja éppen.
+Az opciók menü megalkotásánál a fő cél az az volt, hogy a játékban lévő háttérzene, valamint a hangeffektek hangerejét betudja állítani magának a játékos a saját tetszése szerint, valamint egy olyan gomb megalkotása, aminek a megnyomására a \texttt{Help} menü előjön. A hangerőszabályozáshoz a Unity beépített \texttt{Slider UI} elemét használtam. A \aref{fig:slider}. ábrán látható, hogy milyen \texttt{UI} elemekből épül is fel egy \texttt{Slider}. A \texttt{Background} elem az magának a \texttt{Slider}-nek a háttere, vagyis amikor teljesen levesszük a hangerőt, milyen színű legyen a csúszka, én ezt fehérre állítottam. A \texttt{Fill Area} gyermekobjektumát, a \texttt{Fill} objektumot én piros-ra állítottam. Piros színű lesz a slider, ha teljesen felvesszük a hangerőt. A \texttt{Handle Slide Area} gyermekobjektumát, a \texttt{Handle} objektumot alapértelmezetten hagytam, csak a színét állítottam át pirosra. Használtam még \texttt{Text UI} elemet is, hogy meg tudja a játékos különböztetni, hogy melyik hangerőt állítja éppen.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.7]{images/slider.png}
+\includegraphics[scale = 1.0]{images/slider.png}
 \caption{A Slider UI objektum}
 \label{fig:slider}
 \end{figure}
 
 \newpage
-Ahhoz, hogy a játékos tudja állítani a háttérzene és a hangeffektek hangerejét, készítenem kellett egy AudioMixer-t, valamint egy szkriptet. Az AudioMixer a Unity egyik nagy teljesítményű eszköze, amelyet a projektem hanganyagainak a kezelésére és keverésére használtam. Ez az eszköz lehetővé teszi a fejlesztők számára, hogy különböző hangforrások kezelésével és tulajdonságaik dinamikus beállításával szabályozzák a játékuk hangkörnyezetét. Én főleg a hangforrások csoportosításra használtam az AudioMixer-t, hogy kategorizáljam a háttérzene valamint a hangeffekteket. Az AudioMixer-ben, amely \aref{fig:audiomixer}. ábrán látható, 2 csoportot hoztam létre: a Background és az SFX csoportot, amelyeknek a Master a szülője. Ennek a két csoportnak a Volume változóját exponálnom / fel kellett tárnom a Unity szerkesztőjén belül ahhoz, hogy a \texttt{VolumeSettings} szkripten belül elérjem és manipulálhassam őket.
+Ahhoz, hogy a játékos tudja állítani a háttérzene és a hangeffektek hangerejét, készítenem kellett egy \texttt{AudioMixer}-t, valamint egy szkriptet. Az \texttt{AudioMixer} a Unity egyik nagy teljesítményű eszköze, amelyet a projektem hanganyagainak a kezelésére és keverésére használtam. Ez az eszköz lehetővé teszi a fejlesztők számára, hogy különböző hangforrások kezelésével és tulajdonságaik dinamikus beállításával szabályozzák a játékuk hangkörnyezetét. Én főleg a hangforrások csoportosításra használtam az \texttt{AudioMixer}-t, hogy kategorizáljam a háttérzene valamint a hangeffekteket. Az \texttt{AudioMixer}-ben, amely \aref{fig:audiomixer}. ábrán látható, 2 csoportot hoztam létre: a \texttt{Background} és az \texttt{SFX} csoportot, amelyeknek a Master a szülője. Ennek a két csoportnak a Volume változóját exponálnom / fel kellett tárnom a Unity szerkesztőjén belül ahhoz, hogy a \texttt{VolumeSettings} szkripten belül elérjem és manipulálhassam őket.
 
 \begin{figure}
 \centering
-\includegraphics[scale = 0.4]{images/audiomixer.png}
-\caption{Az AudioMixer eszköz}
+\includegraphics[width = \textwidth]{images/audiomixer.png}
+\caption{Az \texttt{AudioMixer} eszköz}
 \label{fig:audiomixer}
 \end{figure}
 
 A VolumeSettings szkriptben három \texttt{[SerializeField]}-el ellátott változót hoztam létre, az egyik az \texttt{AudioMixer} típusú \texttt{audioMixer} változó, amely a teljes hangkimenetet vezérli. Ezen a keverőn belül lévő speciális paraméterek (\texttt{music} és \texttt{SFXvolume}), amelyeket fel kellet tárnom a Unity szerkesztőjében, a hangerőszintek beállítására szolgálnak. A \texttt{Slider musicSlider} és a \texttt{Slider SFXSlider} a létrehozott Slider-ek referenciáit tárolják.
 
-A \texttt{Start()} metódusban történnek az elmentett hangerőbeállítások betöltése vagy inicializálása. A szkript indításkor ellenőrzi, hogy vannak-e elmentett hangerőbeállítások (\texttt{PlayerPrefs.HasKey(„musicVolume)}). Ha léteznek beállítások, akkor betölti azokat; ha nincsenek, akkor a hangerőszinteket az aktuális slider-ek pozíciója alapján állítja be. Ez biztosítja, hogy a hangerőre vonatkozó felhasználói beállítások a játékmenetek között is megmaradjanak. Az alábbi kódrészlet a \cite{volumesettings} videó alapján készült.
+A \texttt{Start()} metódusban történnek az elmentett hangerőbeállítások betöltése vagy inicializálása. A szkript indításkor ellenőrzi, hogy vannak-e elmentett hangerőbeállítások (\texttt{PlayerPrefs.HasKey("musicVolume")}). Ha léteznek beállítások, akkor betölti azokat; ha nincsenek, akkor a hangerőszinteket az aktuális slider-ek pozíciója alapján állítja be. Ez biztosítja, hogy a hangerőre vonatkozó felhasználói beállítások a játékmenetek között is megmaradjanak. Az alábbi kódrészlet a \cite{volumesettings} videó alapján készült.
 
 \begin{java}
 private void Start()
@@ -1033,7 +1036,6 @@ private void Start()
         SetBackgroundVolume();
         SetSFXVolume();
     }
-    
 }
 \end{java}
 
@@ -1067,14 +1069,14 @@ Az OptionsMenu objektum \aref{fig:optionsmenu}. ábrán, a HelpMenu objektum \ar
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale = 0.4]{images/optionsmenu}
+\includegraphics[width =0.9 \textwidth]{images/optionsmenu}
 \caption{A játék opciók menüje}
 \label{fig:optionsmenu}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale=0.4]{images/helpmenu}
+\includegraphics[width =0.9 \textwidth]{images/helpmenu}
 \caption{A HelpMenu UI objektum}
 \label{fig:helpmenu}
 \end{figure}

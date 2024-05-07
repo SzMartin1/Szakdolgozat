@@ -6,19 +6,19 @@ Ebben a fejezetben három darab generálási módszert fogok bemutatni, amelyek 
 
 Egy olyan dungeon-stílusú térképet szeretnék létrehozni, amelynek a külső szélei mindig falak, amelyek nem engedik leesni a játékost a pályáról, így a játék határai egyértelműen megmaradnak, valamint lehetővé teszi a játékosok számára, hogy szabadon navigáljanak anélkül, hogy áthatolhatatlan akadályokba ütköznének, például olyan falakba, amelyek megakadályozzák őket a tárgyak begyűjtésében. Tehát olyan pályageneráló algoritmus illeszkedne a játékomhoz, amely nem generál elzárt tereket, szobákat.
 
-A térképgenerálás logikája, valamint a menete a következőképpen történik:
+A térképgenerálás eredményeként a térkép egy logikai értékű mátrix:
 
 \[
 m_{ij} = 
 \begin{cases} 
-1 & \text{ha a cella} (i,j) \text{ teli} \\
-0 & \text{ha a cella} (i,j) \text{ üres}
+1, & \text{ha a cella} (i,j) \text{ teli,} \\
+0, & \text{ha a cella} (i,j) \text{ üres}
 \end{cases}
 \]
 
-Bináris használatával különböztetjük meg, hogy mi a tile és mi nem az. Az 1 bekapcsolva, a 0 pedig kikapcsolva. Az összes térképünket egy 2D-s egész számtömbben tároljuk, amelyet minden egyes funkció végén (kivéve, amikor renderelünk) visszaküldünk a felhasználónak.\cite{mapgenerator}
+Bináris érték használatával különböztetjük meg, hogy hova kerüljön a játékban fal jellegű elem. Az 1 bekapcsolva, a 0 pedig kikapcsolva jelzi ezt. Az összes térképünket egy 2D-s egész számtömbben tároljuk, amelyet minden egyes funkció végén (kivéve, amikor renderelünk) visszaküldünk a felhasználónak.\cite{mapgenerator}
 
-Az új térkép generálása előtt a térképen a meglévő tile-ok törlődnek. Ez biztosítja, hogy az új térkép generálása üres vászonnal kezdődjön, megakadályozva az új adatok átfedését vagy összeolvadását a régi tile-okkal. Ezután egy metódus segítségével legenerálunk egy N*N méretű tömböt, amiben az értékek a 0 vagy 1 értéket vehetik fel. Miután a tömb legenerálása befejeződött, meghívjuk a procedurális mapgeneráló algoritmusunkat, majd egy renderelő függvényt, amely az általunk kiválasztott tiletípust felfesti a térképre. A térképgenerálás folyamatábrája a \aref{fig:generationflowchart}. ábrán megtekinthető.\cite{mapgenerator}
+Az új térkép generálása előtt a térképen a meglévő tile-ok törlődnek. Ez biztosítja, hogy az új térkép generálása üres vászonnal kezdődjön, megakadályozva az új adatok átfedését vagy összeolvadását a régi tile-okkal. Ezután egy metódus segítségével legenerálunk egy $N \times $N méretű tömböt, amiben az értékek a 0 vagy 1 értéket vehetik fel. Miután a tömb legenerálása befejeződött, meghívjuk a procedurális térképgeneráló algoritmusunkat, majd egy renderelő függvényt, amely az általunk kiválasztott tiletípust felfesti a térképre. A térképgenerálás folyamatábrája \aref{fig:generationflowchart}. ábrán megtekinthető.\cite{mapgenerator}
 
 \begin{figure}[ht]
 \centering
@@ -29,7 +29,7 @@ Az új térkép generálása előtt a térképen a meglévő tile-ok törlődnek
 
 \Section{A térképgenerálás logikáját megvalósító algoritmusok bemutatása}
 
-Ebben a fejezetben a térképek generálásáért felelős metódusokat fogom részletesen bemutatni. Ezek a metódusok a procedurális térképgenerálás alapvető keretét jelentik, ahol a \texttt{GenerateArray()} metódus létrehozza a térkép adatszerkezetét és kezdeti feltételeit, a \texttt{RenderMap()} metódus pedig az adatok játszható vagy látható formába való renderelésének mechanizmusaként szolgál. Ez a kétlépcsős folyamat - az adatok létrehozása és az adatok renderelése - központi szerepet játszik a játékom procedurális tartalomgenerálásában, lehetővé téve a térképek létrehozásának automatizálását.
+Ebben a fejezetben a térképek generálásáért felelős metódusokat fogom részletesen bemutatni. Ezek a metódusok a procedurális térképgenerálás alapvető keretét jelentik, ahol a \texttt{GenerateArray()} metódus létrehozza a térkép adatszerkezetét és kezdeti feltételeit, a \texttt{RenderMap()} metódus pedig az adatok játszható vagy látható formába való renderelésének mechanizmusaként szolgál. Ez a kétlépcsős folyamat -- az adatok létrehozása és az adatok renderelése -- központi szerepet játszik a játékom procedurális tartalomgenerálásában, lehetővé téve a térképek létrehozásának automatizálását.
 
 \SubSection{A GenerateArray() metódus}
 
@@ -38,12 +38,12 @@ A \texttt{GenerateArray()} függvénynek a célja egy 2D-s \texttt{int[,]} típu
 \textbf{Paraméterek:}
 \begin{itemize}
 \item \texttt{int width, int height} : Ezek a paraméterek határozzák meg a térkép méreteit, specifikusan a szélességét és a magasságát.
-\item \texttt{bool empty} : Ez a bool típusú változó határozza meg, hogy hogyan inicializáljuk a tömböt. Ha az értéke igaz, akkor üresként inicializáljuk, ha false, akkor pedig teliként.
+\item \texttt{bool empty} : Ez a logikai típusú változó határozza meg, hogy hogyan inicializáljuk a tömböt. Ha az értéke igaz, akkor üresként inicializáljuk, ha hamis, akkor pedig teliként.
 \end{itemize}
 
 Az \texttt{int[,] map = new int[width,height]} sorral egy új 2 dimenziós tömböt inicializálunk. A tömb minden eleme egy egész számot reprezentálhat.
 
-A beágyazott \texttt{for} ciklusok a tömb minden egyes elemén végigmennek, az x a szélességen, az y pedig a magasságon iterál.
+A beágyazott \texttt{for} ciklusok a tömb minden egyes elemén végigmennek, az \texttt{x} a szélességen, az \texttt{y} pedig a magasságon iterál.
 
  A \texttt{map.GetUpperBound(0)} és a \texttt{map.GetUpperBound(1)} a tömb dimenzióinak felső határainak megadására szolgál. A \texttt{GetUpperBound(0)} az első dimenzió (szélesség) maximális indexét adja vissza, a \texttt{GetUpperBound(1)} pedig a második dimenzió (magasság) maximális indexét.
 
@@ -80,18 +80,18 @@ public static int[,] GenerateArray(int width,
 
 \SubSection{A RenderMap() metódus}
 
-A RenderMap() függvény felelős a generált térkép vizuális megjelenítéséért egy Unity Tilemap-en egy adott TileBase segítségével. Ez a függvény a numerikus térképadatokat (egy 2D-s egész számtömbben tárolva) a játéktérképen lévő tényleges tile-okká alakítja át.
+A \texttt{RenderMap()} függvény felelős a generált térkép vizuális megjelenítéséért egy Unity \texttt{Tilemap}-en egy adott \texttt{TileBase} segítségével. Ez a függvény a numerikus térképadatokat (egy 2D-s egész számtömbben tárolva) a játéktérképen lévő tényleges tile-okká alakítja át.
 
 \textbf{Paraméterek:}
 \begin{itemize}
 \item \texttt{int[,] map}: Egy két dimenziós tömb, amely a dungeon alaprajzát reprezentálja, ahol az egyes cellák értéke határozza meg, hogy üres vagy tele van-e az adott cella.
-\item \texttt{Tilemap tilemap}: Ez a Unity Tilemap, amelyre a tile-ok fognak felrajzolódni.
-\item \texttt{TileBase tile}: Ez a térkép kitöltött területeinek vizuális ábrázolására szolgáló tile. (Esetemben RuleTile)
+\item \texttt{Tilemap tilemap}: Ez a Unity \texttt{Tilemap}, amelyre a tile-ok fognak felrajzolódni.
+\item \texttt{TileBase tile}: Ez a térkép kitöltött területeinek vizuális ábrázolására szolgáló tile (esetemben \texttt{RuleTile}).
 \end{itemize}
 
 A \texttt{tilemap.ClearAllTiles()} paranccsal, mielőtt az új térképet lerenderelnénk, töröljük az összes meglévő tile-t a térképről. Ez kulcsfontosságú annak biztosítása érdekében, hogy a korábbi tile-ok ne maradjanak láthatóak. Ez a metódus is egymásba ágyazott \texttt{for} ciklusokat használ ahhoz, hogy bejárja a map tömb minden elemét. 
 
-A cikluson belül a függvény minden egyes koordinátánál (x, y) ellenőrzi az értéket. Az \texttt{if(map[x,y] == 1)} feltétel ellenőrzi, hogy az aktuális koordinátáknál lévő cella tele van-e (1 az érték). Ha tele van, akkor a Tilemap megfelelő pozíciójára egy új tile kerül. A \texttt{tilemap.SetTile(new Vector3Int(x,y,0),tile)} parancs egy tile-t helyez el a Tilemap (x,y) pozíciójában. Az alább látható metódus a \cite{mapgenerator} oldal alapján készült.
+A cikluson belül a függvény minden egyes koordinátánál (x, y) ellenőrzi az értéket. Az \texttt{if(map[x, y] == 1)} feltétel ellenőrzi, hogy az aktuális koordinátáknál lévő cella tele van-e (1 az érték). Ha tele van, akkor a \texttt{Tilemap} megfelelő pozíciójára egy új tile kerül. A \texttt{tilemap.SetTile(new Vector3Int(x, y, 0), tile)} parancs egy tile-t helyez el a \texttt{Tilemap (x, y)} pozíciójában. Az alább látható metódus a \cite{mapgenerator} oldal alapján készült.
 
 \begin{java}
 public static void RenderMap(int[,] map, 
@@ -120,9 +120,9 @@ public static void RenderMap(int[,] map,
 
 \Section{A Perlin zaj}
 
-A Perlin-zaj egy algoritmus, amelyet Ken Perlin hozott létre az 1980-as évek elején, és széles körben használják a játékfejlesztésben bármilyen hullámszerű anyag vagy textúra létrehozásához. Például a Perlin-zajt használhatjuk procedurális domborzati alakzatok (Minecraft szerű domborzati térkép hozható létre a Perlin-zaj algoritmus segítségével), tűzeffektek, víz és felhők létrehozásához. Ezek a hatások főleg a második és harmadik dimenzióban tükrözik a Perlin-zajt, de kiterjeszhető a negyedik dimenzióra is. Ezen kívül az algoritmus használható még az 1 dimenziós térben is, mint például egy „side-scroller” terep létrehozásához, vagy kézzel írt vonalak illúziójának megteremtésére.\cite{perlin2}
+A Perlin-zaj egy algoritmus, amelyet Ken Perlin hozott létre az 1980-as évek elején, és széles körben használják a játékfejlesztésben bármilyen hullámszerű anyag vagy textúra létrehozásához. Például a Perlin-zajt használhatjuk procedurális domborzati alakzatok (Minecraft szerű domborzati térkép hozható létre a Perlin-zaj algoritmus segítségével), tűzeffektek, víz és felhők létrehozásához. Ezek a hatások főleg a második és harmadik dimenzióban tükrözik a Perlin-zajt, de kiterjeszhető a negyedik dimenzióra is. Ezen kívül az algoritmus használható még az 1 dimenziós térben is, mint például egy „side-scroller” terep létrehozásához, vagy kézzel írt vonalak illúziójának megteremtésére. \cite{perlin2}
 
-Sőt mi több, ha az algoritmust a 2. vagy a 3. dimenzióra is kiterjesztjük, valamint az extra dimenziókra úgy tekintünk, mint az időre, akkor meg is tudjuk a kreált alakzatokat animálni. Az \aref{tab:perlinnoise}. táblázatban néhány képet láthatunk a különböző méretű zajokról és néhány felhasználási módjukról futás közben:\cite{perlin1}
+Sőt mi több, ha az algoritmust a 2. vagy a 3. dimenzióra is kiterjesztjük, valamint az extra dimenziókra úgy tekintünk, mint az időre, akkor meg is tudjuk a kreált alakzatokat animálni. Az \aref{tab:perlinnoise}. táblázatban néhány képet láthatunk a különböző méretű zajokról és néhány felhasználási módjukról futás közben. \cite{perlin1}
 
 \begin{table}[ht]
 \centering
@@ -141,15 +141,15 @@ Zaj dimenziószáma & A nyers zaj (szürkeárnyalatos) & Felhasználási mód \\
 \end{tabular}
 \end{table}
 
+\newpage
 A táblázatban lévő képeket a \url{https://adrianb.io/2014/08/09/perlinnoise.html} oldalról használtam fel.
 
-A Perlin-zaj gradiens zajgenerálási technikát alkalmaz, ami a pontok közötti természetesebb és simább átmenetet eredményez. Ez a megközelítés élethűbbnek tűnő tájképet hoz létre. Az algoritmus egy rácshálós keretrendszerben működik, ahol a rácsháló minden egyes metszéspontjához egy gradiensvektor tartozik. Ezek a vektorok döntő fontosságúak a zaj mintázatának és irányítottságának kialakításában.\cite{perlin2}
+A Perlin-zaj gradiens zajgenerálási technikát alkalmaz, ami a pontok közötti természetesebb és simább átmenetet eredményez. Ez a megközelítés élethűbbnek tűnő tájképet hoz létre. Az algoritmus egy rácshálós keretrendszerben működik, ahol a rácsháló minden egyes metszéspontjához egy gradiensvektor tartozik. Ezek a vektorok döntő fontosságúak a zaj mintázatának és irányítottságának kialakításában.
 
-A Perlin-zaj egyik fő jellemzője a rácspontok közötti interpoláció alkalmazása, ami hozzájárul a jellegzetes simasághoz. Ez a sima átmenet éles ellentétben áll a teljesen véletlenszerű zajgenerálásra jellemző hirtelen változásokkal. A Perlin-zajt eredetileg 3D-s grafikához fejlesztették ki, de a 2D-s alkalmazásokban is széles körben használják, többek között a videojátékok terepgenerálásában és a procedurális textúrák létrehozásában.\cite{perlin2}
+A Perlin-zaj egyik fő jellemzője a rácspontok közötti interpoláció alkalmazása, ami hozzájárul a jellegzetes simasághoz. Ez a sima átmenet éles ellentétben áll a teljesen véletlenszerű zajgenerálásra jellemző hirtelen változásokkal. A Perlin-zajt eredetileg 3D-s grafikához fejlesztették ki, de a 2D-s alkalmazásokban is széles körben használják, többek között a videojátékok terepgenerálásában és a procedurális textúrák létrehozásában.
+A generált minták összetettségének fokozása érdekében az algoritmus gyakran alkalmaz rétegezési technikát, amely több "oktávnyi" zajt tartalmaz. Minden egyes oktáv külön frekvenciával és amplitúdóval működik, és amikor ezeket a rétegeket kombinálják, bonyolultabb és változatosabb mintákat hoznak létre. Az algoritmus állítható paramétereket kínál, mint például a frekvencia, az amplitúdó és a perzisztencia, ami lehetővé teszi a generált zaj megjelenésének részletes szabályozását, és a terep vagy a textúra testre szabott szimulációját.
 
-A generált minták összetettségének fokozása érdekében az algoritmus gyakran alkalmaz rétegezési technikát, amely több "oktávnyi" zajt tartalmaz. Minden egyes oktáv külön frekvenciával és amplitúdóval működik, és amikor ezeket a rétegeket kombinálják, bonyolultabb és változatosabb mintákat hoznak létre. Az algoritmus állítható paramétereket kínál, mint például a frekvencia, az amplitúdó és a perzisztencia, ami lehetővé teszi a generált zaj megjelenésének részletes szabályozását, és a terep vagy a textúra testre szabott szimulációját.\cite{perlin2}
-
-A játékokban és a számítógépes grafikában való alkalmazásán túl a Perlin-zaj elterjedt más területeken is, mint például tudományos szimulációk készítése, ahol olyan természeti jelenségeket modellez, mint a felhőképződmények, vagy egy táj jellegzetességei.\cite{perlin2}
+A játékokban és a számítógépes grafikában való alkalmazásán túl a Perlin-zaj elterjedt más területeken is, mint például tudományos szimulációk készítése, ahol olyan természeti jelenségeket modellez, mint a felhőképződmények, vagy egy táj jellegzetességei.
 
 \SubSection{A Perlin-zaj algoritmus implementálása és vizsgálata}
 
@@ -161,7 +161,7 @@ A \texttt{PerlinNoiseDungeon()} metódus a Perlin-zaj segítségével módosítj
 \item \texttt{float modifier}: Egy skálázási tényező, amely a Perlin zajfüggvény frekvenciáját állítja be. Az értéke 0 és 1 között van.
 \end{itemize}
 
-A metódusban a Perlin-zajt a térképrács minden egyes koordinátájára úgy alkalmazzuk, hogy a koordinátákat megszorozzuk a modifier változóval. Ez a modifier változó befolyásolja a zaj ""zoom"" szintjét - a magasabb értékek kisebb térrészeken belüli gyakoribb változást eredményeznek, ami töredezettebb mintázatot hoz létre, míg az alacsonyabb értékek szélesebb, simább átmeneteket eredményeznek.
+A metódusban a Perlin-zajt a térképrács minden egyes koordinátájára úgy alkalmazzuk, hogy a koordinátákat megszorozzuk a modifier változóval. Ez a modifier változó befolyásolja a zaj "zoom" szintjét -- a magasabb értékek kisebb térrészeken belüli gyakoribb változást eredményeznek, ami töredezettebb mintázatot hoz létre, míg az alacsonyabb értékek szélesebb, simább átmeneteket eredményeznek.
 
 Az egyes cellák zajértékének kiszámítása után a zajáértéket egész számra kerekítjük (0 vagy 1), hogy eldöntsük, hogy a cella fal vagy üres tér legyen.
 
@@ -205,19 +205,19 @@ public static int[,] PerlinNoiseDungeon(
 
 A továbbiakban a Perlin-zaj által generált térképek vizsgálatáról lesz szó.
 
-Mindegyik generált térkép 100x100-as mátrixnak felel meg, amelyet 1-esekkel töltünk fel. A modifier változó értékét fogom növelni a vizsgálat során, az első érték a 0,05, a második a 0,10 és ez egészen a 0,30 értékig fog növekedni. A generált térképek \aref{fig:lowmodifyperlin}. ábrán és \aref{fig:highmodifyperlin}. ábrán láthatóak.
+Mindegyik generált térkép $100 \times $100-as mátrixnak felel meg, amelyet 1-esekkel töltünk fel. A \texttt{modifier} változó értékét fogom növelni a vizsgálat során, az első érték a 0.05, a második a 0.10 és ez egészen a 0.30 értékig fog növekedni. A generált térképek \aref{fig:lowmodifyperlin}. ábrán és \aref{fig:highmodifyperlin}. ábrán láthatóak.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{images/lowmodifierperlin.png}
-\caption{ A PerlinNoiseDungeon() metódussal generált térképek 0.05, 0.10 és 0.15 modifier értékekkel}
+\caption{ A \texttt{PerlinNoiseDungeon()} metódussal generált térképek 0.05, 0.10 és 0.15 \texttt{modifier} értékekkel}
 \label{fig:lowmodifyperlin}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{images/highmodifierperlin.png}
-\caption{ A PerlinNoiseDungeon() metódussal generált térképek 0.20, 0.25 és 0.30 modifier értékekkel}
+\caption{ A \texttt{PerlinNoiseDungeon()} metódussal generált térképek 0.20, 0.25 és 0.30 \texttt{modifier} értékekkel}
 \label{fig:highmodifyperlin}
 \end{figure}
 
@@ -230,14 +230,14 @@ Ezek a legenerált pályák nem feleltek meg az általam elvárt kinézetnek, mi
 
 \Section{A celluláris automata}
 
-A celluláris automata, egy rácsalapú rendszerben működő számítási modell, amely egyszerűségében és összetettségében egyaránt lenyűgöző. Minden egyes sejt ezen a rácshálózaton két állapotban létezhet, amelyek az "él" vagy a "halott" állapotok. E sejtek fejlődését egyik generációról a másikra egy szabályrendszer határozza meg, amely jellemzően a szomszédos sejtek állapotán alapul. Ez a felállás, bár összetevőit és szabályait tekintve egyszerű, az azonos szabályokat követő sejtek együttes kölcsönhatása révén rendkívül bonyolult mintázatokat képes létrehozni.\cite{cellular}
+A celluláris automata, egy rácsalapú rendszerben működő számítási modell, amely egyszerűségében és összetettségében egyaránt lenyűgöző. Minden egyes sejt ezen a rácshálózaton két állapotban létezhet, amelyek az "él" vagy a "halott" állapotok. E sejtek fejlődését egyik generációról a másikra egy szabályrendszer határozza meg, amely jellemzően a szomszédos sejtek állapotán alapul. Ez a felállás, bár összetevőit és szabályait tekintve egyszerű, az azonos szabályokat követő sejtek együttes kölcsönhatása révén rendkívül bonyolult mintázatokat képes létrehozni. \cite{cellular}
 
-A celluláris automaták egyik legismertebb példája Conway „Game of Life” című műve. Ez egy kiváló példa arra, hogy az alapvető szabályok hogyan eredményezhetnek összetett viselkedést, annak ellenére, hogy ez egy „zero-player” játék, ami azt jelenti, hogy a fejlődését a kezdeti állapota határozza meg, és nincs szüksége emberi játékostól származó cselekedetre, inputra. Az ember úgy lép kapcsolatba a játékkal, hogy létrehoz egy kezdeti konfigurációt, és megfigyeli, hogy hogyan fejlődik. A celluláris automata, valamint a „Game of Life” játék négy szabálya a következő:\cite{conway}
+A celluláris automaták egyik legismertebb példája Conway „Game of Life” című műve. Ez egy kiváló példa arra, hogy az alapvető szabályok hogyan eredményezhetnek összetett viselkedést, annak ellenére, hogy ez egy „zero-player” játék, ami azt jelenti, hogy a fejlődését a kezdeti állapota határozza meg, és nincs szüksége emberi játékostól származó cselekedetre, inputra. Az ember úgy lép kapcsolatba a játékkal, hogy létrehoz egy kezdeti konfigurációt, és megfigyeli, hogy hogyan fejlődik. A celluláris automata, valamint a „Game of Life” játék négy szabálya a következő: \cite{conway}
 \begin{enumerate}
-\item Minden olyan élő sejt, amelynek kettőnél kevesebb szomszédja van, „meghal” (ezt nevezzük alulnépesedésnek vagy veszélyeztetettségnek).\cite{conway}
-\item Minden olyan élő sejt, amelynek háromnál több szomszédja van, „meghal” (ezt nevezik túlnépesedésnek vagy túlzsúfoltságnak).\cite{conway}
-\item Minden élő sejt, amelynek két vagy három élő szomszédja van, változatlanul tovább él a következő generációig.\cite{conway}
-\item Minden halott sejt, amelynek pontosan három élő szomszédja van, életre kel.\cite{conway}
+\item Minden olyan élő sejt, amelynek kettőnél kevesebb szomszédja van, „meghal” (ezt nevezzük alulnépesedésnek vagy veszélyeztetettségnek).
+\item Minden olyan élő sejt, amelynek háromnál több szomszédja van, „meghal” (ezt nevezik túlnépesedésnek vagy túlzsúfoltságnak).
+\item Minden élő sejt, amelynek két vagy három élő szomszédja van, változatlanul tovább él a következő generációig.
+\item Minden halott sejt, amelynek pontosan három élő szomszédja van, életre kel.
 \end{enumerate}
 
 A kezdeti minta képezi a rendszer "magját". Az első generáció úgy jön létre, hogy a fenti szabályokat egyszerre alkalmazzák a mag minden sejtjére - a születések és halálozások egyszerre történnek, és azt a diszkrét pillanatot, amikor ez megtörténik, néha ticknek nevezik. (Más szóval, minden egyes generáció az előző generáció színtiszta függvénye.) A szabályok ismételt alkalmazása további generációk létrehozásához folytatódik. \cite{conway} A celluláris automata szabályait \aref{fig:cellularprincipals}. ábrán láthatjuk.
@@ -250,15 +250,15 @@ A kezdeti minta képezi a rendszer "magját". Az első generáció úgy jön lé
 \end{figure}
 
 \newpage
-A celluláris automata rugalmassága a testreszabhatóságban rejlik. A fejlesztők a szabályokat és az állapotokat az egyedi igényekhez igazíthatják, befolyásolva olyan szempontokat, mint a térkép sűrűsége és az útvonalak összekapcsolhatósága. A véletlenszerűség beépítésének képessége ellenére az automata determinisztikus jellege biztosítja az azonos kezdeti feltételekből származó konzisztens eredményeket, ami különösen hasznos a reprodukálható szintek létrehozásához.\cite{cellular}
+A celluláris automata rugalmassága a testreszabhatóságban rejlik. A fejlesztők a szabályokat és az állapotokat az egyedi igényekhez igazíthatják, befolyásolva olyan szempontokat, mint a térkép sűrűsége és az útvonalak összekapcsolhatósága. A véletlenszerűség beépítésének képessége ellenére az automata determinisztikus jellege biztosítja az azonos kezdeti feltételekből származó konzisztens eredményeket, ami különösen hasznos a reprodukálható szintek létrehozásához. \cite{cellular}
 
-A celluláris automata nem csak a szintek strukturálásában segít, hanem a vizuális látványt is fokozza, olyan mintákat generálva, amelyek esztétikailag szépek és a játékmenet szempontjából is praktikusak. Ezzel a tulajdonságával hatékony eszközzé válik a fejlesztők számára, akik dinamikus és megnyerő környezetet kívánnak létrehozni a 2D platformer játékokban, és az egyedi, változatos szintek létrehozásával jelentősen növeli a játék újra játszásának az esélyét.\cite{cellular}
+A celluláris automata nem csak a szintek strukturálásában segít, hanem a vizuális látványt is fokozza, olyan mintákat generálva, amelyek esztétikailag szépek és a játékmenet szempontjából is praktikusak. Ezzel a tulajdonságával hatékony eszközzé válik a fejlesztők számára, akik dinamikus és megnyerő környezetet kívánnak létrehozni a 2D platformer játékokban, és az egyedi, változatos szintek létrehozásával jelentősen növeli a játék újra játszásának az esélyét. \cite{cellular}
 
 \SubSection{A celluláris automata algoritmus implementálása és vizsgálata}
 
-Ahhoz, hogy a VonNeumannCellularAutomata() metódus létrehozza a randomizált térképünket, először egy módosított térképet kell kreálnunk. A módosítás pedig nem más, mint a randomizáció.
+Ahhoz, hogy a \texttt{VonNeumannCellularAutomata()} metódus létrehozza a randomizált térképünket, először egy módosított térképet kell kreálnunk. A módosítás pedig nem más, mint a randomizáció.
 
-A ModifiedMapForCellularAutomata() metódus megteremti egy celluláris automata folyamat előfeltételeit egy véletlenszerű kezdeti feltételeket tartalmazó térkép létrehozásával, amely aztán a következő lépésekben a von Neumann celluláris automata szabályaival lesz fejlesztve. Funkcionalitását tekintve ugyan azt csinálja, mint a GenerateArray() metódus, de miközben inicializálja a térképtömböt, nem egyenletesen tölti ki a térképteret, hanem randomizálva. Minden belső cellához véletlenszerű állapotot rendel (0 vagy 1) a fillPercent által meghatározott valószínűség alapján. Az alább látható metódus a \cite{mapgenerator} oldal alapján készült.
+A \texttt{ModifiedMapForCellularAutomata()} metódus megteremti egy celluláris automata folyamat előfeltételeit egy véletlenszerű kezdeti feltételeket tartalmazó térkép létrehozásával, amely aztán a következő lépésekben a von Neumann celluláris automata szabályaival lesz fejlesztve. Funkcionalitását tekintve ugyan azt csinálja, mint a \texttt{GenerateArray()} metódus, de miközben inicializálja a térképtömböt, nem egyenletesen tölti ki a térképteret, hanem randomizálva. Minden belső cellához véletlenszerű állapotot rendel (0 vagy 1) a \texttt{fillPercent} által meghatározott valószínűség alapján. Az alább látható metódus a \cite{mapgenerator} oldal alapján készült.
 
 \begin{java}
  public static int[,] ModifiedMapForCellularAutomata(
@@ -273,8 +273,7 @@ A ModifiedMapForCellularAutomata() metódus megteremti egy celluláris automata 
     for (int x = 0; x < 
         map.GetUpperBound(0); x++)
     {
-        for (int y = 0; y < 
-            map.GetUpperBound(1); y++)
+        for (int y = 0; y < map.GetUpperBound(1); y++)
         {
             if ((x == 0 || x == map.GetUpperBound(0) - 1 || 
                 y == 0 || y == map.GetUpperBound(1) - 1))
@@ -294,7 +293,7 @@ A ModifiedMapForCellularAutomata() metódus megteremti egy celluláris automata 
 }
 \end{java}
 
-A VonNeumannCellularAutomata() metódus a von Neumann szomszédságon alapuló celluláris automata technikát használja a generált térkép fejlesztésére.
+A \texttt{VonNeumannCellularAutomata()} metódus a von Neumann szomszédságon alapuló celluláris automata technikát használja a generált térkép fejlesztésére.
 
 \textbf{Paraméterek}
 \begin{itemize}
@@ -359,7 +358,7 @@ public static int[,] VonNeumannCellularAutomata(
 }
 \end{java}
 
-A fenti metódusban használt \texttt{GetVNSurroundingTiles()} metódus \cite{mapgenerator} célja a környező "kitöltött" cellák számának kiszámítása a von Neumann szomszédság alapján, amely csak a négy szomszédos cellát veszi figyelembe a fő irányokban: felette, alatta, balra és jobbra. A von Neumann szomszédságot reprezentáló ábra \aref{fig:vonNeumann}. ábrán láthtató.
+A fenti metódusban használt \texttt{GetVNSurroundingTiles()} metódus \cite{mapgenerator} célja a környező "kitöltött" cellák számának kiszámítása a von Neumann szomszédság alapján, amely csak a négy szomszédos cellát veszi figyelembe a fő irányokban: felette, alatta, balra és jobbra. A von Neumann szomszédságot reprezentáló ábra \aref{fig:vonNeumann}. ábrán látható.
 
 \begin{figure}[ht]
 \centering
@@ -368,31 +367,30 @@ A fenti metódusban használt \texttt{GetVNSurroundingTiles()} metódus \cite{ma
 \label{fig:vonNeumann}
 \end{figure}
 
-\newpage
 A továbbiakban a celluláris automata által generált térképek vizsgálatáról lesz szó.
 
-Mindegyik generált térkép 100x100-as mátrixnak felel meg, amelyet véletlenszerűen töltünk fel 1-esekkel és 0-ákkal. Először a \texttt{requiredFillPercent} változó fixálásával és a \texttt{smoothIterations} változó növelésével fogom vizsgálni a legenerált térképeket, majd a \texttt{smoothIterations} változó értékét fixálom és a \texttt{requiredFillPercent} értékét fogom növelni. A generált térképek \aref{fig:fixedPercentCellular}. ábrán láthatóak.
+Mindegyik generált térkép $100 \times $100-as mátrixnak felel meg, amelyet véletlenszerűen töltünk fel 1-esekkel és 0-ákkal. Először a \texttt{requiredFillPercent} változó fixálásával és a \texttt{smoothIterations} változó növelésével fogom vizsgálni a legenerált térképeket, majd a \texttt{smoothIterations} változó értékét fixálom és a \texttt{requiredFillPercent} értékét fogom növelni. A generált térképek \aref{fig:fixedPercentCellular}. ábrán láthatóak.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{images/fixedpercentcellular.png}
-\caption{Fixált requiredFloorPercent értékkel és változó smoothIterations értékkel generált térképek}
+\caption{Fixált \texttt{requiredFloorPercent} értékkel és változó \texttt{smoothIterations} értékkel generált térképek}
 \label{fig:fixedPercentCellular}
 \end{figure}
 
-A fentebb látható legenerált térképeknél a \texttt{requiredFloorPercent} értéke fixen 40, a \texttt{smoothIterations} értéke pedig 10,20 és 30. Mint látni is lehet, ha növeljük a \texttt{smoothIterations} értékét, akkor a térképen a teli cellák száma növekszik, bár annyira nem látványos a különbség a legenerált térképek között. 
+A fentebb látható legenerált térképeknél a \texttt{requiredFloorPercent} értéke fixen 40, a \texttt{smoothIterations} értéke pedig 10, 20 és 30. Mint látni is lehet, ha növeljük a \texttt{smoothIterations} értékét, akkor a térképen a teli cellák száma növekszik, bár annyira nem látványos a különbség a legenerált térképek között. 
 
 A fixált \texttt{smoothIterations} értékkel és a változó \texttt{requiredFloorPercent} értékkel generált térképek \aref{fig:fixedSmoothCellular}. ábrán láthatóak.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{images/fixedsmoothcellular.png}
-\caption{Fixált smoothIterations értékkel és változó requiredFloorPercent értékkel generált térképek}
+\caption{Fixált \texttt{smoothIterations} értékkel és változó \texttt{requiredFloorPercent} értékkel generált térképek}
 \label{fig:fixedSmoothCellular}
 \end{figure}
 
 \newpage
-A fentebb lévő ábrán látható térképeknél a \texttt{smoothIterations} értéke fixen 20, a \texttt{requiredFloorPercent} értéke pedig 50,55 és 60. Itt már sokkal nagyobb a különbség a legenerált térképek között, minél nagyobb a \texttt{requiredFloorPercent} értéke, annál több olyan cella lesz, amelynek az értéke 1, azaz sokkal sűrűbb lesz a térképünk.
+A fentebb lévő ábrán látható térképeknél a \texttt{smoothIterations} értéke fixen 20, a \texttt{requiredFloorPercent} értéke pedig 50, 55 és 60. Itt már sokkal nagyobb a különbség a legenerált térképek között, minél nagyobb a \texttt{requiredFloorPercent} értéke, annál több olyan cella lesz, amelynek az értéke 1, azaz sokkal sűrűbb lesz a térképünk.
 
 A gond ezzel a procedurális mapgeneráló algoritmussal is az, hogy nem lehet garantálni, hogy olyan térképeket generáljunk, amelyben nincsenek olyan részek, amelyek teljesen elzártak. Ezt az algoritmust inkább 3D-s, Minecraft szerű játékokban tudnám elképzelni, ahol mondjuk az értékes tárgyak elhelyezkedését lehetne meghatározni vele a föld alatt.
 
@@ -400,20 +398,20 @@ A gond ezzel a procedurális mapgeneráló algoritmussal is az, hogy nem lehet g
 
 A véletlen bolyongás algoritmus egy viszonylag egyszerű, de hatékony módszer a procedurális térképgenerálásra, különösen alkalmas kétdimenziós rácsalapú térképekhez. Közismert arról, hogy természetesnek tűnő alakzatokat hoz létre, és összetettebb procedurális generáló rendszerek első lépéseként szolgálhat. Kétdimenziós rácshálózattal összefüggésben a véletlen bolyongást néha „részeges sétának” (Drunkard’s walk-nak) is nevezik, és az elnevezés magától értetődő, ha figyelembe vesszük a működését:\cite{randomwalk}
 \begin{enumerate}
-\item Hozzunk létre egy NxM méretű rácshálózatot.\cite{randomwalk}
-\item Válasszunk egy véletlenszerű kezdő pozíciót a rácshálón.\cite{randomwalk}
-\item Állítsuk be a pozíciót „visited”-re. (Azaz látogatottra.)\cite{randomwalk}
-\item Válasszunk egy új véletlenszerű pozíciót az aktuális pozíciótól egyetlen cella elmozgatásával (balra / fel / jobbra / le).\cite{randomwalk}
-\item Ha a pozíció amire érkezünk érvényes (a pozíció nem esik a rácshálón kívülre), akkor ezt az új pozíciót állítsuk be az aktuális pozíciónak.\cite{randomwalk}
-\item Menjünk vissza a 4. ponthoz, és addig ismételjük, amíg a befejezési feltétel teljesül (például az ismétlések száma).\cite{randomwalk}
+\item Hozzunk létre egy $N \times $M méretű rácshálózatot.
+\item Válasszunk egy véletlenszerű kezdő pozíciót a rácshálón.
+\item Állítsuk be a pozíciót „visited”-re. (Azaz látogatottra.)
+\item Válasszunk egy új véletlenszerű pozíciót az aktuális pozíciótól egyetlen cella elmozgatásával (balra / fel / jobbra / le).
+\item Ha a pozíció amire érkezünk érvényes (a pozíció nem esik a rácshálón kívülre), akkor ezt az új pozíciót állítsuk be az aktuális pozíciónak.
+\item Menjünk vissza a 4. ponthoz, és addig ismételjük, amíg a befejezési feltétel teljesül (például az ismétlések száma).
 \end{enumerate}
 
-A modellezés alapvetően egy olyan egyed, amely minden egyes időlépésnél kiszámíthatatlanul mozog bármilyen irányba. Az entitás a korábban meglátogatott cellákba is visszamehet, így a korábbi iterációk nem befolyásolják az aktuális iterációkat, ami a véletlen bolyongást sztochasztikus / memória nélküli folyamattá teszi. Sőt mi több, garantálja, hogy a térkép teljesen összefüggő lesz, mivel csak a szomszédos cellák között mozog. Ez az algoritmus ideális a játékok barlangjainak és túlvilágainak létrehozására, mivel képes összefüggő és terjedelmes térképeket létrehozni.\cite{randomwalk} Egy véletlen bolyongás algoritmussal létrehozott összefüggő térkép \aref{fig:randomwalkfigure}. ábrán megtekinthető.
+A modellezés alapvetően egy olyan egyed, amely minden egyes időlépésnél kiszámíthatatlanul mozog bármilyen irányba. Az entitás a korábban meglátogatott cellákba is visszamehet, így a korábbi iterációk nem befolyásolják az aktuális iterációkat, ami a véletlen bolyongást sztochasztikus, memória nélküli folyamattá teszi. Sőt mi több, garantálja, hogy a térkép teljesen összefüggő lesz, mivel csak a szomszédos cellák között mozog. Ez az algoritmus ideális a játékok barlangjainak és túlvilágainak létrehozására, mivel képes összefüggő és terjedelmes térképeket létrehozni.\cite{randomwalk} Egy véletlen bolyongás algoritmussal létrehozott összefüggő térkép \aref{fig:randomwalkfigure}. ábrán megtekinthető.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width =\textwidth]{images/randomwalkfigure.png}
-\caption{Egy véletlen bolyongás algoritmussal létrehozott összefüggő térkép\cite{randomwalk}}
+\caption{Egy véletlen bolyongás algoritmussal létrehozott összefüggő térkép \cite{randomwalk}}
 \label{fig:randomwalkfigure}
 \end{figure}
 
@@ -426,16 +424,16 @@ A funkció véletlenszerűen választ ki egy kezdő pozíciót (\texttt{floorX, 
 
 A \texttt{reqFloorAmount} a térképen lévő összes cellaszám százalékaként kerül kiszámításra. Ez a változó határozza meg, hogy hány cellát kell átalakítani teliből üressé a barlanggenerálás befejezéséhez.
 
-A floorCount nulláról indul, és minden alkalommal növekszik, amikor egy cellát teliből üressé alakítunk.
+A \texttt{floorCount} nulláról indul, és minden alkalommal növekszik, amikor egy cellát teliből üressé alakítunk.
 
-A while ciklus addig megy, amíg a floorCount értéke el nem éri a reqFloorAmount értékét. A while cikluson belül egy switch utasítást alkalmazok az irányok kezelésére. Az út generálásának a logikája a következő:
+A \texttt{while} ciklus addig megy, amíg a \texttt{floorCount} értéke el nem éri a \texttt{reqFloorAmount} értékét. A \texttt{while} cikluson belül egy \texttt{switch} utasítást alkalmazok az irányok kezelésére. Az út generálásának a logikája a következő:
 \begin{itemize}
 \item A switch utasítás minden egyes esete egy iránynak felel meg.
 \item Mielőtt az algoritmus bármilyen irányba mozogna, biztosítjuk, hogy a lépés nem halad ki a térkép határain kívülre.
-\item 0.eset: Növeljük a floorY értékét, ha a felfelé mozgás a határokon belül marad.
-\item 1.eset: Csökkentjük a floorY értékét, ha a lefelé mozgás a határokon belül marad.
-\item 2.eset: Növeljük a floorX értékét, ha a jobbra mozgás a határokon belül marad.
-\item 3.eset: Csökkentjük a floorX értékét, ha a balra mozgás a határokon belül marad.
+\item 0.eset: Növeljük a \texttt{floorY} értékét, ha a felfelé mozgás a határokon belül marad.
+\item 1.eset: Csökkentjük a \texttt{floorY} értékét, ha a lefelé mozgás a határokon belül marad.
+\item 2.eset: Növeljük a \texttt{floorX} értékét, ha a jobbra mozgás a határokon belül marad.
+\item 3.eset: Csökkentjük a \texttt{floorX} értékét, ha a balra mozgás a határokon belül marad.
 \end{itemize}
 
 Minden esetben megnézzük, hogy a jelenlegi pozíció teli-e. Ha az, akkor átkonvertáljuk üresre, és a procedúra addig folytatódik, amíg el nem érjük a kívánt cellák számát. Az alább látható metódus a \cite{mapgenerator} oldal alapján készült.
@@ -565,19 +563,19 @@ public static int[,] RandomWalkCave(
 
 A továbbiakban a véletlen bolyongás algoritmussal generált térképek vizsgálatával fogok foglalkozni.
 
-Mindegyik generált térkép 100x100-as mátrixnak felel meg, amelyet 1-esekkel töltünk fel. Az első vizsgálat a \texttt{requiredFloorPercent} érték növelésével fog történni. Hat esetet fogok vizsgálni, melyeknél a változó értéke rendre 20,30,40,50,60 és 70 lesz. A legenerált térképek a megadott \texttt{requiredFloorPercent} értékkel \aref{fig:lowpercentrandomwalk}. ábrán és \aref{fig:highpercentrandomwalk}. ábrán megtekinthetőek.
+Mindegyik generált térkép $100 \times $100-as mátrixnak felel meg, amelyet 1-esekkel töltünk fel. Az első vizsgálat a \texttt{requiredFloorPercent} érték növelésével fog történni. Hat esetet fogok vizsgálni, melyeknél a változó értéke rendre 20, 30, 40, 50, 60 és 70 lesz. A legenerált térképek a megadott \texttt{requiredFloorPercent} értékkel \aref{fig:lowpercentrandomwalk}. ábrán és \aref{fig:highpercentrandomwalk}. ábrán megtekinthetőek.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width = \textwidth]{images/lowpercentrandomwalk.png}
-\caption{Azok a térképek, amelye 20,30 és 40 requiredFloorPercent értékkel lettek generálva}
+\caption{Azok a térképek, amelye 20, 30 és 40 \texttt{requiredFloorPercent} értékkel lettek generálva}
 \label{fig:lowpercentrandomwalk}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width = \textwidth]{images/highpercentrandomwalk.png}
-\caption{Azok a térképek, amelye 50, 60 és 70 requiredFloorPercent értékkel lettek generálva}
+\caption{Azok a térképek, amelye 50, 60 és 70 \texttt{requiredFloorPercent} értékkel lettek generálva}
 \label{fig:highpercentrandomwalk}
 \end{figure}
 
@@ -594,12 +592,12 @@ Minél nagyobb a \texttt{requiredFloorPercent} értéke, annál nagyobb lesz a l
 \end{figure}
 
 \newpage
-A következő vizsgálat során változó méretű térképeket fogok generálni, viszont a \texttt{requiredFloorPercent} értékét 45-re fogom fixálni. Ezen térképek legenárálásának szintén a lépésszámát, valamint az idejét fogom vizsgálni. A térképek rendre 30x30, 40x40 és 50x50 méretűek lesznek. A legenerált térképek \aref{fig:changingmaprandomwalk}. ábrán láthatóak.
+A következő vizsgálat során változó méretű térképeket fogok generálni, viszont a \texttt{requiredFloorPercent} értékét 45-re fogom fixálni. Ezen térképek legenárálásának szintén a lépésszámát, valamint az idejét fogom vizsgálni. A térképek rendre $30 \times $30, $40 \times $40 és $50 \times $50 méretűek lesznek. A legenerált térképek \aref{fig:changingmaprandomwalk}. ábrán láthatóak.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width = \textwidth]{images/changingmaprandomwalk.png}
-\caption{Fixált requiredFloorPercent értékkel, de változó térképmérettel generált mapok}
+\caption{Fixált \texttt{requiredFloorPercent} értékkel, de változó térképmérettel generált mapok}
 \label{fig:changingmaprandomwalk}
 \end{figure}
 
@@ -608,7 +606,7 @@ A generáláshoz szükséges futási idő, valamint a lépésszám \aref{fig:run
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{images/runtime4changinmapsizerandomwalk.png}
-\caption{A fixált requiredFloorPercent értékkel és változó térképmérettel rendelkező mapok generálásának lépésszáma és futási ideje}
+\caption{A fixált \texttt{requiredFloorPercent} értékkel és változó térképmérettel rendelkező mapok generálásának lépésszáma és futási ideje}
 \label{fig:runtimestepcount1}
 \end{figure}
 
@@ -659,14 +657,14 @@ A következő lépés a random választásnak az implementálása. A \texttt{ran
 
 A metódus \texttt{return} értékként visszaadja a kiválasztott irányt az eredeti irányok tömbjének megfelelő indexeként.
 
-A továbbiakban a \texttt{ChooseDirectionBias()} metódus beépítésével generált térképeket fogom vizsgálni rögzített n x n méretű pályákon, majd változó méretű pályákon és ezek legenerálásának a futási idejét, valamint lépésszámát is vizsgálni fogom. A vizsgálat során a \texttt{bias} változó értékét fogom módosítani a rögzített n x n méretű pályákon. A \texttt{requiredFloorPercent} értéke rögzítve lesz, a 45-ös értéken.
+A továbbiakban a \texttt{ChooseDirectionBias()} metódus beépítésével generált térképeket fogom vizsgálni rögzített $N \times $N méretű pályákon, majd változó méretű pályákon és ezek legenerálásának a futási idejét, valamint lépésszámát is vizsgálni fogom. A vizsgálat során a \texttt{bias} változó értékét fogom módosítani a rögzített $N \times $N  méretű pályákon. A \texttt{requiredFloorPercent} értéke rögzítve lesz, a 45-ös értéken.
 
-Mindegyik generált térkép 100x100-as mátrixnak felel meg, amelyet 1-esekkel töltünk fel. Három esetet fogok vizsgálni, ahol a \texttt{bias} változó értékét fogom módosítani. A \texttt{bias} paraméter értéke rendre 0.6, 0.7 és 0.8 lesz. A generált térképek \aref{fig:fixedPercentRandomWalk}. ábrán láthatóak.
+Mindegyik generált térkép $100 \times $100-as mátrixnak felel meg, amelyet 1-esekkel töltünk fel. Három esetet fogok vizsgálni, ahol a \texttt{bias} változó értékét fogom módosítani. A \texttt{bias} paraméter értéke rendre 0.6, 0.7 és 0.8 lesz. A generált térképek \aref{fig:fixedPercentRandomWalk}. ábrán láthatóak.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width = \textwidth]{images/fixedpercentrandomwalk.png}
-\caption{Változó bias paraméterekkel generált térképek}
+\caption{Változó \texttt{bias} paraméterekkel generált térképek}
 \label{fig:fixedPercentRandomWalk}
 \end{figure}
 
@@ -691,12 +689,12 @@ A térképek generálásának lépésszáma, valamint futási ideje \aref{fig:fi
 
 Mint láthatjuk, alacsonyabb \texttt{bias} érték esetén az algoritmus gyakrabban változtatja az irányt, ami több elfordulást eredményez. Ez összetettebb útvonalakat hoz létre, amelyek általában további lépéseket igényelnek ahhoz, hogy elérjék a térkép szükséges alapszázalékát, mivel az útvonal megfordulhat önmagában, vagy kevésbé közvetlen útvonalon haladhat.
 
-A továbbiakban a változó méretű térképek generálásának a vizsgálatával fogok foglalkozni. Szintén megvizsgálom a futási időt, valamint a lépésszámot. A térképek mérete rendre 50x50, 60x60 és 70x70 méretűek lesznek, a \texttt{bias} változó értékét, valamint a \texttt{requiredFloorPercent} értékét is állandóra állítom. A \texttt{bias} értéke 0.7, a \texttt{requiredFloorPercent} értéke pedig 45 lesz. Az ily módon generált térképek \aref{fig:fixedbiaschangingmapsize}. ábrán, a hozzájuk tartozó lépésszám, valamint futási idő \aref{fig:fixedbiaschangingmapsizeruntimestepcount}. ábrán látható.
+A továbbiakban a változó méretű térképek generálásának a vizsgálatával fogok foglalkozni. Szintén megvizsgálom a futási időt, valamint a lépésszámot. A térképek mérete rendre $50 \times $50, $60 \times $60 és $70 \times $70 méretűek lesznek, a \texttt{bias} változó értékét, valamint a \texttt{requiredFloorPercent} értékét is állandóra állítom. A \texttt{bias} értéke 0.7, a \texttt{requiredFloorPercent} értéke pedig 45 lesz. Az ily módon generált térképek \aref{fig:fixedbiaschangingmapsize}. ábrán, a hozzájuk tartozó lépésszám, valamint futási idő \aref{fig:fixedbiaschangingmapsizeruntimestepcount}. ábrán látható.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{images/fixedbiaschangingmapsize.png}
-\caption{Különböző méretű térképek legenerálása állandó bias értékkel}
+\caption{Különböző méretű térképek legenerálása állandó \texttt{bias} értékkel}
 \label{fig:fixedbiaschangingmapsize}
 \end{figure}
 
@@ -708,7 +706,7 @@ A továbbiakban a változó méretű térképek generálásának a vizsgálatáv
 \end{figure}
 
 \newpage
-Ahogy az várható volt, minél nagyobb a térkép területe, annál több lépésszám szükséges a kívánt requiredFloorPercent értékének eléréséhez, valamint a futás idő is több lesz.
+Ahogy az várható volt, minél nagyobb a térkép területe, annál több lépésszám szükséges a kívánt \texttt{requiredFloorPercent} értékének eléréséhez, valamint a futás idő is több lesz.
 
 Úgy vélem, ez az algoritmus felelt meg leginkább az általam felállított követelményeknek, hiszen mindig olyan pályákat generál, amely összefüggő, a térkép szélei mindig falak, így a játékos szabadon navigálhat anélkül, hogy törődnie kellene a leeséssel, nincsenek olyan részek, ahová a játékos ne tudna eljutni, hiszen nincsenek elzárt terek. Ahhoz viszont, hogy a játékos eljusson mindenhová, egy bizonyos játékmechanikát fogok bevezetni, ami nem más mint, a grappling hook.
 
